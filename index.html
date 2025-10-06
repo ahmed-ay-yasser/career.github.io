@@ -5,16 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name - Portfolio</title>
     <style>
+        :root {
+            --navy-dark: #0a192f;
+            --navy-light: #112240;
+            --slate-lightest: #ccd6f6;
+            --slate-light: #a8b2d1;
+            --slate-dark: #8892b0;
+            --accent-cyan: #64ffda;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: var(--navy-dark);
+            color: var(--slate-dark);
             line-height: 1.6;
         }
 
@@ -25,13 +38,13 @@
         }
 
         header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(17, 34, 64, 0.85);
             backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
 
         nav {
@@ -43,7 +56,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, #00c6ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -53,17 +66,30 @@
             display: flex;
             gap: 30px;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--slate-lightest);
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: #667eea;
+            color: var(--accent-cyan);
+        }
+        
+        .nav-resume-link {
+            padding: 8px 20px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 5px;
+            color: var(--accent-cyan) !important; /* Override specificity */
+            transition: all 0.3s;
+        }
+
+        .nav-resume-link:hover {
+            background-color: rgba(100, 255, 218, 0.1);
         }
 
         .hero {
@@ -74,199 +100,27 @@
             position: relative;
             overflow: hidden;
             padding: 40px 20px;
+            background-color: var(--navy-dark);
         }
 
-        .hero::before {
+        .hero::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(100, 255, 218, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: 0;
+            animation: moveGrid 30s linear infinite;
         }
 
-        .data-visualization {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-            opacity: 0.3;
-        }
-
-        .floating-charts {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .chart-element {
-            position: absolute;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .chart-element:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .chart-element:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            animation-delay: 2s;
-        }
-
-        .chart-element:nth-child(3) {
-            bottom: 15%;
-            left: 15%;
-            animation-delay: 4s;
-        }
-
-        .chart-element:nth-child(4) {
-            bottom: 20%;
-            right: 10%;
-            animation-delay: 6s;
-        }
-
-        .chart-element:nth-child(5) {
-            top: 50%;
-            left: 5%;
-            animation-delay: 8s;
-        }
-
-        .chart-element:nth-child(6) {
-            top: 40%;
-            right: 8%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(-5deg);
-            }
-            75% {
-                transform: translateY(-30px) rotate(3deg);
-            }
-        }
-
-        .bar-chart {
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .bar {
-            width: 12px;
-            background: linear-gradient(to top, #667eea, #764ba2);
-            border-radius: 3px;
-            animation: barGrow 2s infinite ease-in-out;
-        }
-
-        .bar:nth-child(1) { height: 40%; animation-delay: 0s; }
-        .bar:nth-child(2) { height: 70%; animation-delay: 0.2s; }
-        .bar:nth-child(3) { height: 50%; animation-delay: 0.4s; }
-        .bar:nth-child(4) { height: 85%; animation-delay: 0.6s; }
-
-        @keyframes barGrow {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(1.2); }
-        }
-
-        .pie-chart {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #667eea 0deg 120deg,
-                #764ba2 120deg 240deg,
-                #f093fb 240deg 360deg
-            );
-            padding: 15px;
-            background-clip: content-box;
-            border: 8px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .line-chart {
-            width: 100px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .line-path {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            height: 40px;
-        }
-
-        .line-path svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .data-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(102, 126, 234, 0.6);
-            border-radius: 50%;
-            animation: particleFloat 15s infinite;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: -100px -100px; }
         }
 
         .hero-content {
@@ -280,93 +134,74 @@
             font-size: 56px;
             margin-bottom: 20px;
             animation: fadeInUp 0.8s ease;
-            color: white;
+            color: var(--slate-lightest);
             text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
 
         .hero-subtitle {
             font-size: 28px;
             margin-bottom: 15px;
-            color: #667eea;
+            color: var(--accent-cyan);
             font-weight: 600;
             animation: fadeInUp 0.8s ease 0.1s backwards;
         }
 
-        .hero-content p {
+        .hero-content .description {
             font-size: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             opacity: 0.9;
             animation: fadeInUp 0.8s ease 0.2s backwards;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--slate-light);
             line-height: 1.6;
         }
-
-        .hero-stats {
+        
+        .hero-buttons {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin: 40px 0;
-            animation: fadeInUp 0.8s ease 0.3s backwards;
+            gap: 20px;
             flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 20px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
         }
 
         .cta-button {
             display: inline-block;
             padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 5px;
             font-weight: bold;
             transition: all 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s backwards;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
-
-        .cta-button:hover {
+        
+        .cta-button.primary {
+            background: var(--accent-cyan);
+            color: var(--navy-dark);
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        }
+        
+        .cta-button.primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.4);
+            background: var(--accent-cyan);
+        }
+        
+        .cta-button.outline {
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        
+        .cta-button.outline:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
         }
 
         section {
-            padding: 80px 20px;
+            padding: 100px 20px;
         }
 
-        .section-light {
-            background: white;
+        .section-dark {
+            background: var(--navy-light);
         }
 
         .section-title {
@@ -374,6 +209,7 @@
             font-size: 42px;
             margin-bottom: 60px;
             position: relative;
+            color: var(--slate-lightest);
         }
 
         .section-title::after {
@@ -381,7 +217,7 @@
             display: block;
             width: 80px;
             height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--accent-cyan);
             margin: 20px auto 0;
             border-radius: 2px;
         }
@@ -394,28 +230,28 @@
         }
 
         .project-card {
-            background: white;
+            background: var(--navy-dark);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
 
         .project-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
 
         .project-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--navy-light);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
-            color: white;
+            color: var(--accent-cyan);
         }
 
         .project-content {
@@ -425,11 +261,11 @@
         .project-content h3 {
             font-size: 24px;
             margin-bottom: 10px;
-            color: #333;
+            color: var(--slate-lightest);
         }
 
         .project-content p {
-            color: #666;
+            color: var(--slate-dark);
             margin-bottom: 15px;
         }
 
@@ -440,11 +276,12 @@
         }
 
         .tag {
-            background: #f0f0f0;
+            background: rgba(100, 255, 218, 0.1);
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 12px;
-            color: #667eea;
+            font-weight: 500;
+            color: var(--accent-cyan);
         }
 
         .skills-container {
@@ -455,21 +292,24 @@
         }
 
         .skill-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--navy-light);
+            border: 1px solid #1d2d4d;
             padding: 30px;
             border-radius: 15px;
-            color: white;
+            color: var(--slate-lightest);
             text-align: center;
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
         }
 
         .skill-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
         }
 
         .skill-icon {
             font-size: 48px;
             margin-bottom: 15px;
+            color: var(--accent-cyan);
         }
 
         .skill-card h3 {
@@ -477,13 +317,18 @@
             margin-bottom: 10px;
         }
 
+        .skill-card p {
+            color: var(--slate-dark);
+            font-size: 14px;
+        }
+
         .contact-form {
             max-width: 600px;
             margin: 40px auto;
-            background: white;
+            background: var(--navy-light);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
         }
 
         .form-group {
@@ -494,23 +339,25 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #333;
+            color: var(--slate-lightest);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e0e0e0;
+            background-color: var(--navy-dark);
+            border: 2px solid var(--slate-dark);
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s;
+            color: var(--slate-lightest);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--accent-cyan);
         }
 
         .form-group textarea {
@@ -521,8 +368,8 @@
         .submit-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--accent-cyan);
+            color: var(--navy-dark);
             border: none;
             border-radius: 8px;
             font-size: 18px;
@@ -533,7 +380,7 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 20px rgba(100, 255, 218, 0.3);
         }
 
         /* Timeline Styles */
@@ -549,10 +396,9 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
+            width: 2px;
             height: 100%;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
+            background: #233554;
         }
 
         .timeline-item {
@@ -568,15 +414,15 @@
         }
 
         .timeline-item:nth-child(even) .timeline-content {
-            text-align: right;
+            
         }
 
         .timeline-content {
             width: 45%;
-            background: white;
+            background: var(--navy-light);
             padding: 0;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             position: relative;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
@@ -590,29 +436,8 @@
         }
 
         .timeline-content:hover {
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.2);
             transform: translateY(-10px) scale(1.02);
-        }
-
-        .timeline-content::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border: 4px solid #667eea;
-            border-radius: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-
-        .timeline-item:nth-child(odd) .timeline-content::before {
-            left: -60px;
-        }
-
-        .timeline-item:nth-child(even) .timeline-content::before {
-            right: -60px;
         }
 
         .timeline-image {
@@ -639,13 +464,13 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(10, 25, 47, 0.85);
             backdrop-filter: blur(10px);
             padding: 10px 25px;
             border-radius: 30px;
             font-weight: bold;
             font-size: 18px;
-            color: #667eea;
+            color: var(--accent-cyan);
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             z-index: 5;
         }
@@ -656,13 +481,13 @@
 
         .timeline-details h3 {
             font-size: 26px;
-            color: #333;
+            color: var(--slate-lightest);
             margin-bottom: 12px;
             font-weight: 700;
         }
 
         .timeline-description {
-            color: #666;
+            color: var(--slate-dark);
             line-height: 1.7;
             margin-bottom: 20px;
             font-size: 15px;
@@ -670,10 +495,10 @@
 
         .timeline-achievements {
             margin: 20px 0;
-            background: #f8f9fa;
+            background: var(--navy-dark);
             padding: 20px;
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid var(--accent-cyan);
         }
 
         .achievement-item {
@@ -682,7 +507,7 @@
             gap: 12px;
             margin-bottom: 12px;
             font-size: 14px;
-            color: #555;
+            color: var(--slate-light);
         }
 
         .achievement-item:last-child {
@@ -702,8 +527,8 @@
         }
 
         .timeline-tag {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--accent-cyan);
+            color: var(--navy-dark);
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
@@ -718,103 +543,19 @@
         .timeline-dot {
             position: absolute;
             left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            top: 20px; /* Aligns with top of card */
+            transform: translateX(-50%);
             width: 20px;
             height: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: 4px solid white;
+            background: var(--navy-light);
+            border: 3px solid var(--accent-cyan);
             border-radius: 50%;
             z-index: 10;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(102, 126, 234, 0.1);
-            }
-        }
-
-        .timeline-year {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
-        }
-
-        .timeline-content h3 {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .timeline-content p {
-            color: #666;
-            line-height: 1.7;
-        }
-
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 30px;
-            }
-
-            .timeline-item,
-            .timeline-item:nth-child(even) {
-                justify-content: flex-end;
-            }
-
-            .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                width: calc(100% - 80px);
-                text-align: left;
-            }
-
-            .timeline-item:nth-child(odd) .timeline-content::before,
-            .timeline-item:nth-child(even) .timeline-content::before {
-                left: -60px;
-                right: auto;
-            }
-
-            .timeline-dot {
-                left: 30px;
-            }
-
-            .timeline-image {
-                height: 200px;
-            }
-
-            .year-badge {
-                top: 15px;
-                left: 15px;
-                padding: 8px 20px;
-                font-size: 16px;
-            }
-
-            .timeline-details {
-                padding: 20px;
-            }
-
-            .timeline-details h3 {
-                font-size: 22px;
-            }
-
-            .timeline-achievements {
-                padding: 15px;
-            }
         }
 
         footer {
-            background: #2d3748;
-            color: white;
+            background: #081427;
+            color: var(--slate-light);
             text-align: center;
             padding: 30px 20px;
         }
@@ -827,13 +568,13 @@
         }
 
         .social-links a {
-            color: white;
+            color: var(--slate-light);
             font-size: 24px;
             transition: color 0.3s;
         }
 
         .social-links a:hover {
-            color: #667eea;
+            color: var(--accent-cyan);
         }
 
         @keyframes fadeInUp {
@@ -848,21 +589,18 @@
         }
 
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 36px;
-            }
+            .hero-content h1 { font-size: 36px; }
+            .hero-content .description { font-size: 18px; }
+            .nav-links { gap: 15px; } /* Reduce gap on mobile */
+            .section-title { font-size: 32px; }
 
-            .hero-content p {
-                font-size: 18px;
+            .timeline::before { left: 10px; }
+            .timeline-item, .timeline-item:nth-child(even) { justify-content: flex-end; }
+            .timeline-content, .timeline-item:nth-child(even) .timeline-content {
+                width: calc(100% - 40px);
+                text-align: left;
             }
-
-            .nav-links {
-                gap: 15px;
-            }
-
-            .section-title {
-                font-size: 32px;
-            }
+            .timeline-dot { left: 10px; }
         }
     </style>
 </head>
@@ -873,393 +611,406 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#timeline">Journey</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#timeline">Journey</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" class="nav-resume-link">Resume</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hello, I'm Your Name</h1>
-            <p>Creative Developer & Designer</p>
-            <a href="#contact" class="cta-button">Get In Touch</a>
-        </div>
-    </section>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Hello, I'm Your Name</h1>
+                <p class="hero-subtitle">Data Analyst & Insights Specialist</p>
+                <p class="description">I transform complex datasets into actionable insights, helping businesses make data-driven decisions.</p>
+                <div class="hero-buttons">
+                     <a href="#contact" class="cta-button primary">Get In Touch</a>
+                     <a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" class="cta-button outline">Explore Resume</a>
+                </div>
+            </div>
+        </section>
 
-    <section id="projects" class="section-light">
+        <section id="projects" class="section-dark">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">📈</div>
+                        <div class="project-content">
+                            <h3>Predictive Sales Analytics</h3>
+                            <p>A predictive modeling platform that forecasts e-commerce sales trends with 95% accuracy.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">SQL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image">📊</div>
+                        <div class="project-content">
+                            <h3>Customer Segmentation Dashboard</h3>
+                            <p>An interactive dashboard for visualizing customer segmentation to drive marketing strategies.</p>
+                            <div class="project-tags">
+                                <span class="tag">Tableau</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">DAX</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image">🧪</div>
+                        <div class="project-content">
+                            <h3>A/B Testing Framework</h3>
+                            <p>A statistical framework for designing and analyzing A/B tests to optimize user engagement.</p>
+                            <div class="project-tags">
+                                <span class="tag">R</span>
+                                <span class="tag">Statistics</span>
+                                <span class="tag">Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills">
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">🚀</div>
-                    <div class="project-content">
-                        <h3>Project Alpha</h3>
-                        <p>A revolutionary platform that connects creators with opportunities worldwide.</p>
-                        <div class="project-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">Node.js</span>
-                            <span class="tag">AI</span>
-                        </div>
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-container" style="align-items: stretch; grid-template-columns: repeat(4, 1fr);">
+                <div class="skill-card">
+                    <div class="skill-icon"> 
+                        <img src="https://cdn-icons-png.flaticon.com/256/10817/10817310.png" alt="Programming" style="width: 45%; height: 45%; display: block; margin: 0 auto">
+                    </div>
+                    <h3>Programming</h3>
+                    <div class="timeline-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                        <span class="timeline-tag">Python</span>
+                        <span class="timeline-tag">R</span>
+                        <span class="timeline-tag">C#</span>
+                        <span class="timeline-tag">VBA</span>
+                        <span class="timeline-tag">HTML/CSS</span>
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <div class="project-image">💡</div>
-                    <div class="project-content">
-                        <h3>Project Beta</h3>
-                        <p>An innovative solution for streamlining creative workflows and collaboration.</p>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">ML</span>
-                            <span class="tag">API</span>
-                        </div>
+                <div class="skill-card">
+                    <div class="skill-icon"> 
+                        <img src="https://cdn-icons-png.freepik.com/512/8686/8686102.png" alt="Databases" style="width: 45%; height: 45%; display: block; margin: 0 auto">
+                    </div>
+                    <h3>Databases & Data Management</h3>
+                    <div class="timeline-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                        <span class="timeline-tag">SQL</span>
+                        <span class="timeline-tag">DAX</span>
+                        <span class="timeline-tag">ETL/ELT</span>
+                        <span class="timeline-tag">MySQL</span>
+                        <span class="timeline-tag">MS SQL Server</span>
+                        <span class="timeline-tag">Database Design</span>
+                        <span class="timeline-tag">Database Warehousing</span>
+                        <span class="timeline-tag">Database Modeling</span>
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <div class="project-image">🎨</div>
-                    <div class="project-content">
-                        <h3>Project Gamma</h3>
-                        <p>A beautiful design system that brings consistency to digital products.</p>
-                        <div class="project-tags">
-                            <span class="tag">Design</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">UI/UX</span>
-                        </div>
+                <div class="skill-card">
+                    <div class="skill-icon"> 
+                        <img src="https://cdn-icons-png.flaticon.com/512/10397/10397103.png" alt="Visualization" style="width: 45%; height: 45%; display: block; margin: 0 auto">
+                    </div>
+                    <h3>Data Visualization</h3>
+                    <div class="timeline-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                        <span class="timeline-tag">Power BI</span>
+                        <span class="timeline-tag">Tableau</span>
+                        <span class="timeline-tag">Looker Studio</span>
+                        <span class="timeline-tag">Matplotlib</span>
+                        <span class="timeline-tag">Metabase</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon"> 
+                        <img src="https://cdn-icons-png.flaticon.com/512/10397/10397103.png" alt="tools" style="width: 45%; height: 45%; display: block; margin: 0 auto">
+                    </div>
+                    <h3>Tools and Methodologies</h3>
+                    <div class="timeline-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                        <span class="timeline-tag">Statistical Analysis</span>
+                        <span class="timeline-tag">Object-Oriented Programming (OOP)</span>
+                        <span class="timeline-tag">R Studio</span>
+                        <span class="timeline-tag">Jupyter Notebook</span>
+                        <span class="timeline-tag">MS Office</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="timeline" class="section-light">
-        <div class="container">
-            <h2 class="section-title">My Journey</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2018</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                <span style="font-size: 64px;">🎓</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>Started University</h3>
-                            <p class="timeline-description">Joined the Faculty of Computer Science, beginning my journey into technology and innovation.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">📚</span>
-                                    <span>Learned fundamentals of programming</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">💡</span>
-                                    <span>Built first web application</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🏆</span>
-                                    <span>Won hackathon competition</span>
-                                </div>
-                            </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">C++</span>
-                                <span class="timeline-tag">Python</span>
-                                <span class="timeline-tag">Algorithms</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section id="timeline" class="section-dark">
+            <div class="container">
+                <h2 class="section-title">The Road to Excellence</h2>
+                <div class="timeline">
+                    
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2019</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                                <span style="font-size: 64px;">💼</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>First Internship</h3>
-                            <p class="timeline-description">Completed my first software development internship, gaining hands-on experience with real-world projects.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">⚙️</span>
-                                    <span>Contributed to production code</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">👥</span>
-                                    <span>Collaborated with senior developers</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🚀</span>
-                                    <span>Deployed features to 10K+ users</span>
+                    <!-- New Part // Mostaql -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Nov - 2021</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://verpex.com/assets/uploads/images/blog/How-To-Become-A-Freelance-Data-Analyst.webp?v=1711104899" style="object-fit:fill; display: block;   transform: scale(0.19); object-position: 0% 100%;"> 
                                 </div>
                             </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">React</span>
-                                <span class="timeline-tag">Node.js</span>
-                                <span class="timeline-tag">Git</span>
+                            <div class="timeline-details">
+                                <h3>Freelance Data Analyst</h3>
+                                <h4 style="margin-bottom: 15px;"> 
+                                    <img src="https://maharatech.gov.eg/theme/edumy/pix/freelance/mostaqel-removebg-preview.png" alt="Mostaql Logo" style="width: 60px; height: 30px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">Through freelance projects, I leveraged data analytics to help clients optimize their operations, building dashboards and providing actionable insights that drove business improvements and efficiency.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">🏆</span><span>29 Five Star Rated Projects with 100% Satisfaction Rate</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">💡</span><span>Worked on Projects Covering Several Business Domains</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Data Analysis</span>
+                                    <span class="timeline-tag">Data Transformation</span>
+                                    <span class="timeline-tag">Data Cleaning</span>
+                                    <span class="timeline-tag">Data Visualization</span>
+                                    <span class="timeline-tag">Excel</span>
+                                    <span class="timeline-tag">VBA</span>
+                                    <span class="timeline-tag">SQL</span>
+                                    <span class="timeline-tag">Power BI</span>
+                                    <span class="timeline-tag">Tableau</span>
+                                    <span class="timeline-tag">PowerPoint</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2021</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                                <span style="font-size: 64px;">🌟</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>Started Freelancing</h3>
-                            <p class="timeline-description">Launched my freelance career, working with clients worldwide to build innovative digital solutions.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🌍</span>
-                                    <span>Worked with 20+ international clients</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">💰</span>
-                                    <span>Generated $50K+ in revenue</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">⭐</span>
-                                    <span>Maintained 5-star rating</span>
-                                </div>
-                            </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">Full-Stack</span>
-                                <span class="timeline-tag">UI/UX</span>
-                                <span class="timeline-tag">MongoDB</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2022</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                                <span style="font-size: 64px;">🎉</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>Graduated with Honors</h3>
-                            <p class="timeline-description">Earned my degree with honors and expanded my portfolio with diverse projects across multiple industries.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🏅</span>
-                                    <span>Graduated with GPA 3.8/4.0</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">📝</span>
-                                    <span>Published research paper</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🎯</span>
-                                    <span>Led capstone project team</span>
+                    <!-- New Part // University -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">May - 2022</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://tanta.edu.eg/tantaedu/images/tanta-unv-old.jpg" style="object-fit:fill; display: block; transform: scale(0.6);"> 
                                 </div>
                             </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">Machine Learning</span>
-                                <span class="timeline-tag">Cloud</span>
-                                <span class="timeline-tag">DevOps</span>
+                            <div class="timeline-details">
+                                <h3>Business Information Systems Graduate</h3>
+                                <h4 style="margin-bottom: 10px;"> 
+                                    <img src="https://upload.wikimedia.org/wikipedia/ar/archive/5/50/20231126101549%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B7%D9%86%D8%B7%D8%A7.png" alt="University Logo" style="width: 60px; height: 60px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">Graduated top of class in Business Information Systems, combining comprehensive business acumen with technical expertise to bridge the gap between commercial strategy and technology solutions.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Graduated with Honors with Cumulative GPA of 3.90/4.00</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">👨‍💻</span><span>Led the development of "Eduvert" as a graduation project, delivering an A+ educational platform using C# and MySQL</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Accounting</span>
+                                    <span class="timeline-tag">Marketing</span>
+                                    <span class="timeline-tag">Economics</span>
+                                    <span class="timeline-tag">Statistics</span>
+                                    <span class="timeline-tag">Mathematics</span>
+                                    <span class="timeline-tag">Finance</span>
+                                    <span class="timeline-tag">Project Management</span>
+                                    <span class="timeline-tag">Databases</span>
+                                    <span class="timeline-tag">Programming</span>
+                                    <span class="timeline-tag">System Design</span>
+                                    <span class="timeline-tag">Expert Systems</span>
+                                    <span class="timeline-tag">Website Development</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2024</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                                <span style="font-size: 64px;">🚀</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>Senior Developer Role</h3>
-                            <p class="timeline-description">Joined a leading tech company as a senior developer, working on cutting-edge AI-powered applications.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🤖</span>
-                                    <span>Built AI recommendation engine</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">📈</span>
-                                    <span>Improved system performance 300%</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">👨‍🏫</span>
-                                    <span>Mentored 5 junior developers</span>
-                                </div>
-                            </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">AI/ML</span>
-                                <span class="timeline-tag">Microservices</span>
-                                <span class="timeline-tag">Kubernetes</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-image">
-                            <div class="year-badge">2025</div>
-                            <div class="image-placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                                <span style="font-size: 64px;">✨</span>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <h3>Present & Future</h3>
-                            <p class="timeline-description">Continuing to grow, learn, and create impactful solutions while mentoring aspiring developers.</p>
-                            <div class="timeline-achievements">
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🌱</span>
-                                    <span>Building innovative products</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">🎤</span>
-                                    <span>Speaking at tech conferences</span>
-                                </div>
-                                <div class="achievement-item">
-                                    <span class="achievement-icon">💫</span>
-                                    <span>Exploring new technologies</span>
+                    <!-- New Part // Military Service -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Jan - 2022</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://www.mod.gov.eg/extras/newspics/45646/logo.jpg" style="object-fit:fill; display: block;   transform: scale(0.38); object-position: 150% 50%;"> 
                                 </div>
                             </div>
-                            <div class="timeline-tags">
-                                <span class="timeline-tag">Innovation</span>
-                                <span class="timeline-tag">Leadership</span>
-                                <span class="timeline-tag">Growth</span>
+                            <div class="timeline-details">
+                                <h3>IT Specialist & Application Developer</h3>
+                                <h4 style="margin-bottom: 10px;"> 
+                                    <img src="https://watad-eg.com/wp-content/uploads/2022/03/%D8%A7%D9%84%D9%87%D9%8A%D8%A6%D8%A9-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9-%D9%84%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD%D8%A9.png" alt="Army Logo" style="width: 60px; height: 60px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">During the military service, I oversaw all IT infrastructure and support while architecting and building a fully functioning internal system for the military unit.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Served as the go-to technical expert and developed solutions for diverse HW/SW challenges.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">⭐</span><span>Developed and implemented a LAN-based desktop application with integrated database system.</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">IT Support</span>
+                                    <span class="timeline-tag">C#</span>
+                                    <span class="timeline-tag">SQL</span>
+                                    <span class="timeline-tag">MySQL</span>
+                                    <span class="timeline-tag">Networking</span>
+                                    <span class="timeline-tag">Database Design</span>
+                                    <span class="timeline-tag">Desktop Application</span>
+                                    <span class="timeline-tag">Application Development</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+
+
+
+                    <!-- New Part // OPPO -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Apr - 2024</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/de0e2261192869.5a66b07374ff1.jpg" style="object-fit:fill; display: block;   transform: scale(0.45); object-position: 0% 100%;"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>Data Analyst</h3>
+                                <h4 style="margin-bottom: 5px;"> 
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/OPPO_LOGO_2019.svg/2560px-OPPO_LOGO_2019.svg.png" alt="OPPO Logo" style="width: 75px; height: 20px; vertical-align: top; margin-right: 4px;">
+                                </h4>
+                                <p class="timeline-description">During my time at OPPO, I analyzed repair order data to drive operational decisions and automated reporting to reduce process time by 95%.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">⚙️</span><span>Internal Business Workflow Automation</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">📈</span><span>Operational Dashboard Deployment & Maintenance</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>System-related Issues Resolution & Support</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Data Analysis</span>
+                                    <span class="timeline-tag">Reporting</span>
+                                    <span class="timeline-tag">Excel</span>
+                                    <span class="timeline-tag">Statistics</span>
+                                    <span class="timeline-tag">Power BI</span>
+                                    <span class="timeline-tag">Python</span>
+                                    <span class="timeline-tag">Customer Service</span>
+                                    <span class="timeline-tag">Automation</span>
+                                    <span class="timeline-tag">Forecasting</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">Skills & Expertise</h2>
-            <div class="skills-container">
-                <div class="skill-card">
-                    <div class="skill-icon">💻</div>
-                    <h3>Web Development</h3>
-                    <p>Full-stack development with modern frameworks and technologies</p>
+        </section>
+        
+        <section id="contact">
+            <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-form">
+                <form id="contact-form" action="https://formsubmit.co/ahmedyasserdar1@gmail.com" method="POST">
+                    <!-- Hidden Fields for Configuration -->
+                    <input type="hidden" name="_subject" value="New Message from Portfolio">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                
+                    <!-- Your Form Fields -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            
+                <!-- Success Message (Hidden by default) -->
+                <div id="thank-you-message" style="display: none; text-align: center; padding: 40px;">
+                    <div style="font-size: 64px; margin-bottom: 20px;">✅</div>
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Message Sent Successfully!</h3>
+                    <p style="color: #ffffff; margin-bottom: 25px;">Thank you for reaching out. I'll get back to you soon.</p>
+                    <button onclick="resetForm()" class="cta-button" style="padding: 12px 30px;">Send Another Message</button>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🎯</div>
-                    <h3>UI/UX Design</h3>
-                    <p>Creating beautiful, user-centered digital experiences</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">⚡</div>
-                    <h3>Performance</h3>
-                    <p>Optimizing applications for speed and scalability</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🤖</div>
-                    <h3>AI Integration</h3>
-                    <p>Leveraging AI to build smarter applications</p>
                 </div>
             </div>
-        </div>
-    </section>
+         </section>
 
-    <section id="contact" class="section-light">
-        <div class="container">
-            <h2 class="section-title">Let's Work Together</h2>
-            <form class="contact-form" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-        </div>
-    </section>
+            <script>
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const form = this;
+                const submitBtn = form.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+    
+                // Show loading state
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+    
+                // Submit form data
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        // Show success message
+                        form.style.display = 'none';
+                        document.getElementById('thank-you-message').style.display = 'block';
+                    } else {
+                        alert('There was an error sending your message. Please try again.');
+                    }
+                }).catch(error => {
+                    alert('There was an error sending your message. Please try again.');
+                }).finally(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+
+            function resetForm() {
+                // Reset form and show it again
+                document.getElementById('contact-form').reset();
+                document.getElementById('contact-form').style.display = 'block';
+                document.getElementById('thank-you-message').style.display = 'none';
+            }
+            </script>
+
+
+    </main>
 
     <footer>
-        <div class="social-links">
-            <a href="#" title="LinkedIn">💼</a>
-            <a href="#" title="GitHub">🐙</a>
-            <a href="#" title="Twitter">🐦</a>
-            <a href="#" title="Email">✉️</a>
+       <div class="social-links">
+        <a href="mailto:ahmedyasserdar1@gmail.com" title="Email"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/2560px-Gmail_icon_%282020%29.svg.png" alt="gmail" style="width: 38px; height: 32px;"></a>
+        <a href="https://www.linkedin.com/in/ahmed-ay-yasser/" title="LinkedIn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="linkedin" style="width: 32px; height: 32px;"></a>
+        <a href="https://x.com/ahmed_ay_yasser" title="Twitter"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-white-icon.png" alt="x" style="width: 32px; height: 32px;"></a>
         </div>
-        <p>&copy; 2025 Your Name. All rights reserved.</p>
     </footer>
 
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Form submission
-        function handleSubmit(e) {
-            e.preventDefault();
-            alert('Thank you for your message! This is a demo form.');
-            e.target.reset();
-        }
-
-        // Add scroll animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // Intersection Observer for animations on timeline
+        const timelineItems = document.querySelectorAll('.timeline-item');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.project-card, .skill-card').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Timeline scroll animation
-        const timelineObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
                     entry.target.classList.add('animate');
+                    // Optional: unobserve after animation to save resources
+                    // observer.unobserve(entry.target); 
                 }
             });
         }, {
-            threshold: 0.3
+            threshold: 0.1
         });
-
-        document.querySelectorAll('.timeline-item').forEach(el => {
-            timelineObserver.observe(el);
+        timelineItems.forEach(item => {
+            observer.observe(item);
         });
     </script>
 </body>

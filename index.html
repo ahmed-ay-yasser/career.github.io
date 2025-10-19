@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
+    <link rel="icon" type="image/png" href="C:\Users\Ahmed Yasser\Downloads\ay_new_green_-_Copy-removebg-preview.png">
+    <title>Career Chronicle - Ahmed Yasser</title>
     <style>
         :root {
             --navy-dark: #0a192f;
@@ -29,6 +30,7 @@
             background: var(--navy-dark);
             color: var(--slate-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -84,7 +86,7 @@
             padding: 8px 20px;
             border: 1px solid var(--accent-cyan);
             border-radius: 5px;
-            color: var(--accent-cyan) !important; /* Override specificity */
+            color: var(--accent-cyan) !important;
             transition: all 0.3s;
         }
 
@@ -92,15 +94,94 @@
             background-color: rgba(100, 255, 218, 0.1);
         }
 
+        /* Mobile Navigation */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--slate-lightest);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--navy-light);
+            padding: 80px 30px 30px;
+            transition: right 0.3s ease;
+            z-index: 99;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--slate-lightest);
+            font-size: 18px;
+            padding: 10px 0;
+            display: block;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 98;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .hero {
-            min-height: 90vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            padding: 40px 20px;
+            padding: 80px 20px;
             background-color: var(--navy-dark);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(100, 255, 218, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(100, 255, 218, 0.05) 0%, transparent 50%);
+            z-index: 0;
         }
 
         .hero::after {
@@ -111,8 +192,8 @@
             width: 100%;
             height: 100%;
             background-image:
-                linear-gradient(rgba(100, 255, 218, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 255, 218, 0.08) 1px, transparent 1px);
+                linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
             z-index: 0;
             animation: moveGrid 30s linear infinite;
@@ -126,41 +207,143 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            text-align: center;
-            max-width: 900px;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        .hero-content h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--navy-light) 0%, #1a2f4d 100%);
+            border: 3px solid var(--accent-cyan);
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.2);
             animation: fadeInUp 0.8s ease;
-            color: var(--slate-lightest);
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
 
-        .hero-subtitle {
-            font-size: 28px;
-            margin-bottom: 15px;
+        .hero-image-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            opacity: 0.3;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .stat-card {
+            background: var(--navy-light);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
             color: var(--accent-cyan);
-            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--slate-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-right {
             animation: fadeInUp 0.8s ease 0.1s backwards;
         }
 
-        .hero-content .description {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
+        .hero-greeting {
+            font-size: 18px;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+            color: var(--slate-lightest);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 25px;
             color: var(--slate-light);
-            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .hero-bio {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--slate-dark);
+            margin-bottom: 20px;
+        }
+
+        .hero-bio-highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .hero-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .specialty-tag {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent-cyan);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s;
+        }
+
+        .specialty-tag:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
         }
         
         .hero-buttons {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.4s backwards;
         }
 
         .cta-button {
@@ -234,13 +417,15 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             cursor: pointer;
+            border: 1px solid transparent;
         }
 
         .project-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-color: var(--accent-cyan);
         }
 
         .project-image {
@@ -252,6 +437,7 @@
             justify-content: center;
             font-size: 48px;
             color: var(--accent-cyan);
+            overflow: hidden;
         }
 
         .project-content {
@@ -282,6 +468,16 @@
             font-size: 12px;
             font-weight: 500;
             color: var(--accent-cyan);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
         }
 
         .skills-container {
@@ -329,6 +525,13 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--accent-cyan);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.2);
         }
 
         .form-group {
@@ -411,10 +614,6 @@
 
         .timeline-item:nth-child(even) {
             justify-content: flex-start;
-        }
-
-        .timeline-item:nth-child(even) .timeline-content {
-            
         }
 
         .timeline-content {
@@ -543,7 +742,7 @@
         .timeline-dot {
             position: absolute;
             left: 50%;
-            top: 20px; /* Aligns with top of card */
+            top: 20px;
             transform: translateX(-50%);
             width: 20px;
             height: 20px;
@@ -552,6 +751,27 @@
             border-radius: 50%;
             z-index: 10;
         }
+
+        .inspiring-quote {
+            font-size: 1.3em;
+            line-height: 1.5;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--slate-lightest); 
+            border-left: 4px solid var(--accent-cyan); 
+            padding-left: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        .inspiring-quote cite {
+            display: block;
+            font-size: 0.8em;
+            margin-top: 10px;
+            color: var(--accent-cyan);
+            font-style: normal;
+            font-weight: normal;
+        }
+
 
         footer {
             background: #081427;
@@ -577,6 +797,78 @@
             color: var(--accent-cyan);
         }
 
+        /* Certifications Section - HORIZONTAL CARDS */
+        .certificates-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .certificate-card {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: var(--navy-dark);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-color: var(--accent-cyan);
+        }
+
+        .certificate-card .cert-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 140px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: var(--navy-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .certificate-card .cert-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .certificate-content {
+            flex: 1;
+        }
+
+        .certificate-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .certificate-content .project-tags {
+            justify-content: flex-start;
+        }
+
+        .project-card:hover .project-image img {
+            transform: translateY(-100%);
+        }
+
+        .project-card:hover .hover-overlay {
+            opacity: 0;
+        }
+
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -588,94 +880,601 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 36px; }
-            .hero-content .description { font-size: 18px; }
-            .nav-links { gap: 15px; } /* Reduce gap on mobile */
-            .section-title { font-size: 32px; }
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 30px;
+            }
+        }
 
-            .timeline::before { left: 10px; }
-            .timeline-item, .timeline-item:nth-child(even) { justify-content: flex-end; }
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 42px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .hero-image-container {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .skills-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .certificate-card {
+                gap: 20px;
+                padding: 25px;
+            }
+
+            .certificate-card .cert-image {
+                width: 180px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .hero-bio {
+                font-size: 15px;
+            }
+            
+            .hero-image-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .stat-number {
+                font-size: 24px;
+            }
+            
+            .cta-button {
+                padding: 12px 30px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+            
+            section {
+                padding: 80px 20px;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .timeline::before {
+                left: 10px;
+            }
+            
+            .timeline-item, .timeline-item:nth-child(even) {
+                justify-content: flex-end;
+            }
+            
             .timeline-content, .timeline-item:nth-child(even) .timeline-content {
                 width: calc(100% - 40px);
                 text-align: left;
             }
-            .timeline-dot { left: 10px; }
+            
+            .timeline-dot {
+                left: 10px;
+            }
+            
+            .timeline-details {
+                padding: 20px;
+            }
+            
+            .timeline-details h3 {
+                font-size: 22px;
+            }
+            
+            .timeline-image {
+                height: 200px;
+            }
+            
+            .year-badge {
+                font-size: 16px;
+                padding: 8px 20px;
+            }
+
+            .certificate-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .certificate-card .cert-image {
+                width: 100%;
+                max-width: 250px;
+                height: 150px;
+            }
+
+            .certificate-content .project-tags {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                min-height: auto;
+                padding: 60px 15px;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .hero-bio {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .hero-image-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .hero-image-container::before {
+                font-size: 80px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 20px;
+            }
+            
+            .stat-label {
+                font-size: 10px;
+            }
+            
+            .hero-specialties {
+                gap: 8px;
+            }
+            
+            .specialty-tag {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-content {
+                padding: 20px;
+            }
+            
+            .project-content h3 {
+                font-size: 20px;
+            }
+            
+            .skill-card {
+                padding: 20px;
+            }
+            
+            .skill-card h3 {
+                font-size: 20px;
+            }
+            
+            .timeline-details h3 {
+                font-size: 20px;
+            }
+            
+            .timeline-achievements {
+                padding: 15px;
+            }
+            
+            .achievement-item {
+                font-size: 13px;
+            }
+            
+            .timeline-tag {
+                font-size: 11px;
+                padding: 5px 12px;
+            }
+
+            .certificate-card {
+                padding: 20px;
+            }
+
+            .certificate-card .cert-image {
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero-content h1 {
+                font-size: 28px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .timeline-details h3 {
+                font-size: 18px;
+            }
+            
+            .timeline-description {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <nav class="container">
-            <div class="logo">YourBrand</div>
+            <div class="logo">
+            <img src="C:\Users\Ahmed Yasser\Downloads\ay_new_green__1_-removebg-preview.png" alt="logo" style="max-height: 50px; width: auto; display: block;">
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
                 <li><a href="#timeline">Journey</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#internships">Internships</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#trust">Trust</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" class="nav-resume-link">Resume</a></li>
+                <li><a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" target="_blank" class="nav-resume-link">Resume</a></li>
             </ul>
         </nav>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <ul class="mobile-nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#timeline">Journey</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#internships">Internships</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#trust">Trust</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" target="_blank" class="nav-resume-link">Resume</a></li>
+            </ul>
+        </div>
+        <div class="overlay" id="overlay"></div>
     </header>
 
     <main>
         <section id="home" class="hero">
             <div class="hero-content">
-                <h1>Hello, I'm Your Name</h1>
-                <p class="hero-subtitle">Data Analyst & Insights Specialist</p>
-                <p class="description">I transform complex datasets into actionable insights, helping businesses make data-driven decisions.</p>
-                <div class="hero-buttons">
-                     <a href="#contact" class="cta-button primary">Get In Touch</a>
-                     <a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" class="cta-button outline">Explore Resume</a>
+                <div class="hero-left">
+                    <div class="hero-image-container">
+                        <img src="D:\formal.png" alt="Ahmed Yasser" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years of Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">29+</div>
+                            <div class="stat-label">Completed Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Certifications</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Client Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <p class="hero-greeting">👋 Hello, I'm</p>
+                    <h1>Ahmed Yasser</h1>
+                    <p class="hero-subtitle" style="color:var(--accent-cyan)">Business Intelligence Analyst</p>
+                    
+                    <div class="hero-bio" style="text-align: justify;">
+                        <blockquote class="inspiring-quote">
+                           "I have no special talents. I'm only passionately curious."
+                            <cite> <i>
+                                - Albert Einstein
+                             </i> </cite> 
+                         </blockquote>
+
+                        <p>That curiosity, first ignited during my university years and formally launched in 2019, is the engine of my journey. When data was an uncharted frontier for many, I began carving my path from the ground up, no handouts, just a relentless drive to understand.</p>
+
+                        <p style="margin-top: 15px;">Today, I am a passionate <span class="hero-bio-highlight">data storyteller</span> who transforms raw data into strategic insights. My journey is proven at global companies like <span class="hero-bio-highlight"> OPPO </span> and through <span class="hero-bio-highlight"> 29+ freelance projects </span>, where I specialize in turning complex datasets into clear, actionable intelligence that drives measurable business growth.</p>
+
+                        <p style="margin-top: 15px;">The proof is in the impact: from <span class="hero-bio-highlight">automating workflows</span> that save 95% of manual processing time, to building <span class="hero-bio-highlight">interactive dashboards</span> that empower leaders with clarity. I don't just crunch numbers; I bridge the critical gap between data and decisive action.</p>
+                    </div>
+                    
+                    <div class="hero-specialties">
+                        <span class="specialty-tag">📈 Data Analysis</span>
+                        <span class="specialty-tag">📊 Data Visualization</span>
+                        <span class="specialty-tag">💡 Business Intelligence</span>
+                        <span class="specialty-tag">🤖 Process Automation</span>
+                        <span class="specialty-tag">🔎 Predictive Analytics</span>
+                        <span class="specialty-tag">🎯 Strategic Insights</span>
+                    </div>
+                    
+                    <div class="hero-buttons">
+                        <a href="#contact" class="cta-button primary">Get In Touch</a>
+                        <a href="https://drive.google.com/file/d/1YhlUCl9Rrm2O4YhTArVWC4ofla_bQ_00/view?usp=drive_link" target="_blank" class="cta-button outline">Explore Resume</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="section-dark">
+
+        <section id="timeline" class="section-dark">
             <div class="container">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">📈</div>
-                        <div class="project-content">
-                            <h3>Predictive Sales Analytics</h3>
-                            <p>A predictive modeling platform that forecasts e-commerce sales trends with 95% accuracy.</p>
-                            <div class="project-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">Scikit-learn</span>
-                                <span class="tag">SQL</span>
+                <h2 class="section-title">The Road to Excellence</h2>
+                <div class="timeline">
+                    
+
+                    <!-- New Part // Mostaql -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Nov - 2021</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://verpex.com/assets/uploads/images/blog/How-To-Become-A-Freelance-Data-Analyst.webp?v=1711104899" style="object-fit:fill; display: block;   transform: scale(0.19); object-position: 0% 100%;"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>Freelance Data Analyst</h3>
+                                <h4 style="margin-bottom: 15px;"> 
+                                    <img src="https://maharatech.gov.eg/theme/edumy/pix/freelance/mostaqel-removebg-preview.png" alt="Mostaql Logo" style="width: 60px; height: 30px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">Through freelance projects, I leveraged data analytics to help clients optimize their operations, building dashboards and providing actionable insights that drove business improvements and efficiency.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">🏆</span><span>29 Five Star Rated Projects with 100% Satisfaction Rate.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">⭐</span><span>Collaborated with a wide variaty of KSA clients.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">💡</span><span>Worked on Projects Covering Several Business Domains.</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Data Analysis</span>
+                                    <span class="timeline-tag">Data Transformation</span>
+                                    <span class="timeline-tag">Data Cleaning</span>
+                                    <span class="timeline-tag">Data Visualization</span>
+                                    <span class="timeline-tag">Excel</span>
+                                    <span class="timeline-tag">VBA</span>
+                                    <span class="timeline-tag">SQL</span>
+                                    <span class="timeline-tag">Power BI</span>
+                                    <span class="timeline-tag">Tableau</span>
+                                    <span class="timeline-tag">PowerPoint</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card">
-                        <div class="project-image">📊</div>
-                        <div class="project-content">
-                            <h3>Customer Segmentation Dashboard</h3>
-                            <p>An interactive dashboard for visualizing customer segmentation to drive marketing strategies.</p>
-                            <div class="project-tags">
-                                <span class="tag">Tableau</span>
-                                <span class="tag">Power BI</span>
-                                <span class="tag">DAX</span>
+
+
+                    <!-- New Part // University -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">May - 2022</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://tanta.edu.eg/tantaedu/images/tanta-unv-old.jpg" style="object-fit:fill; display: block; transform: scale(0.6);"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>Business Information Systems Graduate</h3>
+                                <h4 style="margin-bottom: 10px;"> 
+                                    <img src="https://upload.wikimedia.org/wikipedia/ar/archive/5/50/20231126101549%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B7%D9%86%D8%B7%D8%A7.png" alt="University Logo" style="width: 60px; height: 60px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">Graduated top of class in Business Information Systems, combining comprehensive business acumen with technical expertise to bridge the gap between commercial strategy and technology solutions.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Graduated with Honors with Cumulative GPA of 3.90/4.00.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">👨‍💻</span><span>Led the development of "Eduvert" as a graduation project, delivering an A+ educational platform using C# and MySQL</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Accounting</span>
+                                    <span class="timeline-tag">Marketing</span>
+                                    <span class="timeline-tag">Economics</span>
+                                    <span class="timeline-tag">Statistics</span>
+                                    <span class="timeline-tag">Mathematics</span>
+                                    <span class="timeline-tag">Finance</span>
+                                    <span class="timeline-tag">Project Management</span>
+                                    <span class="timeline-tag">Databases</span>
+                                    <span class="timeline-tag">Programming</span>
+                                    <span class="timeline-tag">System Design</span>
+                                    <span class="timeline-tag">Expert Systems</span>
+                                    <span class="timeline-tag">Website Development</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card">
-                        <div class="project-image">🧪</div>
-                        <div class="project-content">
-                            <h3>A/B Testing Framework</h3>
-                            <p>A statistical framework for designing and analyzing A/B tests to optimize user engagement.</p>
-                            <div class="project-tags">
-                                <span class="tag">R</span>
-                                <span class="tag">Statistics</span>
-                                <span class="tag">Analytics</span>
+
+
+                    <!-- New Part // Military Service -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Jan - 2023</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://africa.cgtn.com/wp-content/uploads/2023/06/Egypt-1-12.jpg" style="object-fit:fill; display: block;   transform: scale(0.65); object-position: 150% 50%;"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>IT Specialist & Application Developer</h3>
+                                <h4 style="margin-bottom: 10px;"> 
+                                    <img src="https://watad-eg.com/wp-content/uploads/2022/03/%D8%A7%D9%84%D9%87%D9%8A%D8%A6%D8%A9-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9-%D9%84%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD%D8%A9.png" alt="Army Logo" style="width: 60px; height: 60px; vertical-align: middle;">
+                                <br>
+                                </h4>
+                                <p class="timeline-description">During the military service, I oversaw all IT infrastructure and support while architecting and building a fully functioning internal system for the military unit.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Served as the go-to technical expert and developed solutions for diverse HW/SW challenges.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">⭐</span><span>Developed and implemented a LAN-based desktop application with integrated database system.</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">IT Support</span>
+                                    <span class="timeline-tag">C#</span>
+                                    <span class="timeline-tag">SQL</span>
+                                    <span class="timeline-tag">MySQL</span>
+                                    <span class="timeline-tag">Networking</span>
+                                    <span class="timeline-tag">Database Design</span>
+                                    <span class="timeline-tag">ERD Design</span>
+                                    <span class="timeline-tag">Desktop Application</span>
+                                    <span class="timeline-tag">Application Development</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- New Part // OPPO -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Apr - 2024</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/de0e2261192869.5a66b07374ff1.jpg" style="object-fit:fill; display: block;   transform: scale(0.45); object-position: 0% 100%;"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>Data Analyst</h3>
+                                <h4 style="margin-bottom: 5px;"> 
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/OPPO_LOGO_2019.svg/2560px-OPPO_LOGO_2019.svg.png" alt="OPPO Logo" style="width: 75px; height: 20px; vertical-align: top; margin-right: 4px;">
+                                </h4>
+                                <p class="timeline-description">During my time at OPPO, I analyzed repair order data to drive operational decisions and automated reporting to reduce process time by 95%.</p>
+                                <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">⚙️</span><span>Internal Business Workflow Automation.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">📈</span><span>Operational Dashboard Deployment & Maintenance.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>System-related Issues Resolution & Support.</span></div>
+                                </div>
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Data Analysis</span>
+                                    <span class="timeline-tag">Reporting</span>
+                                    <span class="timeline-tag">Excel</span>
+                                    <span class="timeline-tag">Statistics</span>
+                                    <span class="timeline-tag">Power BI</span>
+                                    <span class="timeline-tag">Python</span>
+                                    <span class="timeline-tag">Customer Service</span>
+                                    <span class="timeline-tag">Automation</span>
+                                    <span class="timeline-tag">Forecasting</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+
+                    <!-- New Part // Giza Systems -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <div class="year-badge">Oct - 2025</div>
+                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
+                                    <img src="https://waya.media/wp-content/uploads/sites/3/2022/10/News-website-scaled-1.jpeg" style="object-fit:fill; display: block;   transform: scale(0.185); object-position: 0% 0%;"> 
+                                </div>
+                            </div>
+                            <div class="timeline-details">
+                                <h3>BI Analyst</h3>
+                                <h4 style="margin-bottom: 10px;"> 
+                                    <img src="https://www.gizasystems.com/storage/subsidiaries/sub15.png" alt="Giza Logo" style="width: 140px; height: 40px; vertical-align: top; margin-right: 1px; transform:scale(1.2)">
+                                </h4>
+                                <p class="timeline-description" style="font-size:18px"> 🌟 Recently Joined! 🌟</p>
+                               <!-- <div class="timeline-achievements">
+                                
+                                <div class="achievement-item"><span class="achievement-icon">⚙️</span><span>Internal Business Workflow Automation.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">📈</span><span>Operational Dashboard Deployment & Maintenance.</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>System-related Issues Resolution & Support.</span></div>
+                                </div> 
+                                <div class="timeline-tags">
+                                    <span class="timeline-tag">Data Analysis</span>
+                                    <span class="timeline-tag">Reporting</span>
+                                    <span class="timeline-tag">Excel</span>
+                                    <span class="timeline-tag">Statistics</span>
+                                    <span class="timeline-tag">Power BI</span>
+                                    <span class="timeline-tag">Python</span>
+                                    <span class="timeline-tag">Customer Service</span>
+                                    <span class="timeline-tag">Automation</span>
+                                    <span class="timeline-tag">Forecasting</span>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section id="skills">
         <div class="container">
             <h2 class="section-title">Skills & Expertise</h2>
@@ -740,172 +1539,972 @@
                 </div>
             </div>
         </div>
-    </section>
+        </section>
 
-        <section id="timeline" class="section-dark">
+        <section id="projects" class="section-dark">
             <div class="container">
-                <h2 class="section-title">The Road to Excellence</h2>
-                <div class="timeline">
+            <div class="section-title" style="text-align: center; margin-bottom: 50px;">
+                    <h2 style="color: var(--slate-lightest, #ccd6f6); font-size: 42px; margin-bottom: 10px;">Featured Projects</h2>
+                    <p style="color: var(--slate, #8892b0); font-size: 18px;">⚠️ Note: The data has been altered to maintain confidentiality.</p>
+                </div>    
+                <div class="projects-grid">
                     
-
-                    <!-- New Part // Mostaql -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-image">
-                                <div class="year-badge">Nov - 2021</div>
-                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
-                                    <img src="https://verpex.com/assets/uploads/images/blog/How-To-Become-A-Freelance-Data-Analyst.webp?v=1711104899" style="object-fit:fill; display: block;   transform: scale(0.19); object-position: 0% 100%;"> 
-                                </div>
+                    <div class="project-card">
+                    <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                            <!-- Thumbnail Image -->
+                            <img 
+                                src="C:\Users\Ahmed Yasser\Downloads\images\dashboard1.png" 
+                                alt="Sourcing Projects Dashboard Preview" 
+                                style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                            <!-- Dark Overlay with Text -->
+                            <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                                <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
                             </div>
-                            <div class="timeline-details">
-                                <h3>Freelance Data Analyst</h3>
-                                <h4 style="margin-bottom: 15px;"> 
-                                    <img src="https://maharatech.gov.eg/theme/edumy/pix/freelance/mostaqel-removebg-preview.png" alt="Mostaql Logo" style="width: 60px; height: 30px; vertical-align: middle;">
-                                <br>
-                                </h4>
-                                <p class="timeline-description">Through freelance projects, I leveraged data analytics to help clients optimize their operations, building dashboards and providing actionable insights that drove business improvements and efficiency.</p>
-                                <div class="timeline-achievements">
-                                    <div class="achievement-item"><span class="achievement-icon">🏆</span><span>29 Five Star Rated Projects with 100% Satisfaction Rate</span></div>
-                                    <div class="achievement-item"><span class="achievement-icon">💡</span><span>Worked on Projects Covering Several Business Domains</span></div>
+        
+                            <!-- Power BI Dashboard -->
+                            <iframe 
+                                title="Sourcing Projects Dashboard" 
+                                width="100%" 
+                                height="100%" 
+                                src="https://app.powerbi.com/view?r=eyJrIjoiMDFjN2EyNGUtMzIwZC00MjNkLWIzYTMtMWE4MzRkM2E2YjczIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9" 
+                                frameborder="0" 
+                                allowFullScreen="true"
+                                style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                            </iframe>
+                    </div>
+                    <div class="project-content">
+                        <h3 style="color:#64ffda">Sourcing Projects Dashboard</h3>
+                        <p>An interactive Power BI dashboard for analyzing sourcing projects and relevant metrics.</p>
+                        <div class="timeline-achievements">
+                                <div class="achievement-item"><span class="achievement-icon">📅</span><span>2021</span></div>
+                                <div class="achievement-item"><span class="achievement-icon">🏢</span><span>TBC (Tatweer Buildings Company)</span></div>
+                                <div class="achievement-item">
+                                    <span class="achievement-icon">🌐</span>
+                                    <a href="https://mostaql.com/project/444507-%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%84%D9%88%D8%AD%D8%A9-%D8%B9%D8%B1%D8%B6-dashboard-%D8%B9%D9%86-%D8%B7%D8%B1%D9%8A%D9%82-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-power-bi?deal_id=3767756" 
+                                       style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                        Explore the project review 🔗
+                                    </a>
                                 </div>
-                                <div class="timeline-tags">
-                                    <span class="timeline-tag">Data Analysis</span>
-                                    <span class="timeline-tag">Data Transformation</span>
-                                    <span class="timeline-tag">Data Cleaning</span>
-                                    <span class="timeline-tag">Data Visualization</span>
-                                    <span class="timeline-tag">Excel</span>
-                                    <span class="timeline-tag">VBA</span>
-                                    <span class="timeline-tag">SQL</span>
-                                    <span class="timeline-tag">Power BI</span>
-                                    <span class="timeline-tag">Tableau</span>
-                                    <span class="timeline-tag">PowerPoint</span>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="project-tags" style="margin-bottom: 10px">
+                            <span class="tag">Excel</span>
+                            <span class="tag">Power BI</span>
+                            <span class="tag">DAX</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">Data Transformation</span>
+                            <span class="tag">Data Visualization</span>
+                            <span class="tag">Project Management</span>
                         </div>
                     </div>
-
-
-                    <!-- New Part // University -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-image">
-                                <div class="year-badge">May - 2022</div>
-                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
-                                    <img src="https://tanta.edu.eg/tantaedu/images/tanta-unv-old.jpg" style="object-fit:fill; display: block; transform: scale(0.6);"> 
-                                </div>
-                            </div>
-                            <div class="timeline-details">
-                                <h3>Business Information Systems Graduate</h3>
-                                <h4 style="margin-bottom: 10px;"> 
-                                    <img src="https://upload.wikimedia.org/wikipedia/ar/archive/5/50/20231126101549%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B7%D9%86%D8%B7%D8%A7.png" alt="University Logo" style="width: 60px; height: 60px; vertical-align: middle;">
-                                <br>
-                                </h4>
-                                <p class="timeline-description">Graduated top of class in Business Information Systems, combining comprehensive business acumen with technical expertise to bridge the gap between commercial strategy and technology solutions.</p>
-                                <div class="timeline-achievements">
-                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Graduated with Honors with Cumulative GPA of 3.90/4.00</span></div>
-                                    <div class="achievement-item"><span class="achievement-icon">👨‍💻</span><span>Led the development of "Eduvert" as a graduation project, delivering an A+ educational platform using C# and MySQL</span></div>
-                                </div>
-                                <div class="timeline-tags">
-                                    <span class="timeline-tag">Accounting</span>
-                                    <span class="timeline-tag">Marketing</span>
-                                    <span class="timeline-tag">Economics</span>
-                                    <span class="timeline-tag">Statistics</span>
-                                    <span class="timeline-tag">Mathematics</span>
-                                    <span class="timeline-tag">Finance</span>
-                                    <span class="timeline-tag">Project Management</span>
-                                    <span class="timeline-tag">Databases</span>
-                                    <span class="timeline-tag">Programming</span>
-                                    <span class="timeline-tag">System Design</span>
-                                    <span class="timeline-tag">Expert Systems</span>
-                                    <span class="timeline-tag">Website Development</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- New Part // Military Service -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-image">
-                                <div class="year-badge">Jan - 2022</div>
-                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
-                                    <img src="https://www.mod.gov.eg/extras/newspics/45646/logo.jpg" style="object-fit:fill; display: block;   transform: scale(0.38); object-position: 150% 50%;"> 
-                                </div>
-                            </div>
-                            <div class="timeline-details">
-                                <h3>IT Specialist & Application Developer</h3>
-                                <h4 style="margin-bottom: 10px;"> 
-                                    <img src="https://watad-eg.com/wp-content/uploads/2022/03/%D8%A7%D9%84%D9%87%D9%8A%D8%A6%D8%A9-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9-%D9%84%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD%D8%A9.png" alt="Army Logo" style="width: 60px; height: 60px; vertical-align: middle;">
-                                <br>
-                                </h4>
-                                <p class="timeline-description">During the military service, I oversaw all IT infrastructure and support while architecting and building a fully functioning internal system for the military unit.</p>
-                                <div class="timeline-achievements">
-                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>Served as the go-to technical expert and developed solutions for diverse HW/SW challenges.</span></div>
-                                    <div class="achievement-item"><span class="achievement-icon">⭐</span><span>Developed and implemented a LAN-based desktop application with integrated database system.</span></div>
-                                </div>
-                                <div class="timeline-tags">
-                                    <span class="timeline-tag">IT Support</span>
-                                    <span class="timeline-tag">C#</span>
-                                    <span class="timeline-tag">SQL</span>
-                                    <span class="timeline-tag">MySQL</span>
-                                    <span class="timeline-tag">Networking</span>
-                                    <span class="timeline-tag">Database Design</span>
-                                    <span class="timeline-tag">Desktop Application</span>
-                                    <span class="timeline-tag">Application Development</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-
-
-
-                    <!-- New Part // OPPO -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-image">
-                                <div class="year-badge">Apr - 2024</div>
-                                <div class="image-placeholder" style="background: linear-gradient(135deg, var(--navy-light) 0%, #233554 100%);">
-                                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/de0e2261192869.5a66b07374ff1.jpg" style="object-fit:fill; display: block;   transform: scale(0.45); object-position: 0% 100%;"> 
-                                </div>
-                            </div>
-                            <div class="timeline-details">
-                                <h3>Data Analyst</h3>
-                                <h4 style="margin-bottom: 5px;"> 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/OPPO_LOGO_2019.svg/2560px-OPPO_LOGO_2019.svg.png" alt="OPPO Logo" style="width: 75px; height: 20px; vertical-align: top; margin-right: 4px;">
-                                </h4>
-                                <p class="timeline-description">During my time at OPPO, I analyzed repair order data to drive operational decisions and automated reporting to reduce process time by 95%.</p>
-                                <div class="timeline-achievements">
-                                    <div class="achievement-item"><span class="achievement-icon">⚙️</span><span>Internal Business Workflow Automation</span></div>
-                                    <div class="achievement-item"><span class="achievement-icon">📈</span><span>Operational Dashboard Deployment & Maintenance</span></div>
-                                    <div class="achievement-item"><span class="achievement-icon">💻</span><span>System-related Issues Resolution & Support</span></div>
-                                </div>
-                                <div class="timeline-tags">
-                                    <span class="timeline-tag">Data Analysis</span>
-                                    <span class="timeline-tag">Reporting</span>
-                                    <span class="timeline-tag">Excel</span>
-                                    <span class="timeline-tag">Statistics</span>
-                                    <span class="timeline-tag">Power BI</span>
-                                    <span class="timeline-tag">Python</span>
-                                    <span class="timeline-tag">Customer Service</span>
-                                    <span class="timeline-tag">Automation</span>
-                                    <span class="timeline-tag">Forecasting</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
                 
+
+                <div class="project-card">
+                    <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                        <!-- Thumbnail Image -->
+                        <img 
+                            src="C:\Users\Ahmed Yasser\Downloads\images\dashboard2.png" 
+                            alt="STC Performance Analysis Preview" 
+                            style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                        <!-- Dark Overlay with Text -->
+                        <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                            <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                        </div>
+        
+                        <!-- Power BI Dashboard -->
+                        <iframe 
+                            title="STC Performance Analysis Dashboard" 
+                            width="100%" 
+                            height="100%" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiNTMzMDkxNTUtN2M5Yi00NDg2LWI4MWUtMTAzMDAyNWRkMjUwIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9" 
+                            frameborder="0" 
+                            allowFullScreen="true"
+                            style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                        </iframe>
+                    </div>
+                    <div class="project-content">
+                        <h3 style="color:#64ffda">STC Performance Analysis Dashboard</h3>
+                        <p>An actionable dashboard that covers a variety of KPIs across diverse departments to track performance and enhance processes.</p>
+                        <div class="timeline-achievements">
+                                <div class="achievement-item"><span class="achievement-icon">📅</span><span>2022</span></div>
+                                <div class="achievement-item"><span class="achievement-icon">🏢</span><span>STC</span></div>
+                                <div class="achievement-item">
+                                    <span class="achievement-icon">🌐</span>
+                                    <a href="https://mostaql.com/project/405964-%D9%85%D8%B7%D9%84%D9%88%D8%A8-%D8%B9%D9%85%D9%84-%D9%84%D9%88%D8%AD%D8%A9-%D8%AA%D8%AD%D9%83%D9%85-dashboard-%D8%B9%D9%84%D9%89-power-bi?deal_id=3976100" 
+                                       style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                        Explore the project review 🔗
+                                    </a>
+                                </div>
+                            </div>
+                        <div class="project-tags" style="margin-bottom: 10px">
+                            <span class="tag">Excel</span>
+                            <span class="tag">Power BI</span>
+                            <span class="tag">DAX</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">Data Transformation</span>
+                            <span class="tag">Data Visualization</span>
+                            <span class="tag">Project Management</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="project-card">
+                        <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                            <!-- Thumbnail Image -->
+                            <img 
+                                src="C:\Users\Ahmed Yasser\Downloads\images\dashboard5.png" 
+                                alt="OPPO Dashboard Preview" 
+                                style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                            <!-- Dark Overlay with Text -->
+                            <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                                <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                            </div>
+        
+                            <!-- Power BI Dashboard -->
+                            <iframe 
+                                title="Real Estate Dashboard" 
+                                width="100%" 
+                                height="100%" 
+                                src="https://app.powerbi.com/view?r=eyJrIjoiZDZlNzM1YWQtZGFiNS00N2IzLWJkNDAtYmYzNWVhMzJhNzVmIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+                                frameborder="0" 
+                                allowFullScreen="true"
+                                style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                            </iframe>
+                        </div>
+                            <div class="project-content">
+                                <h3 style="color:#64ffda">Real Estate Dashboard</h3>
+                                <p>An executive dashboard that provides a view of the projects portfolio, tracking active projects, contractor performance, budget allocation, and technical/financial achievement percentages.</p>
+                                <div class="timeline-achievements">
+                                        <div class="achievement-item"><span class="achievement-icon">📅</span><span>2022</span></div>
+                                        <div class="achievement-item"><span class="achievement-icon">🏢</span><span>Real Estate General Authority - KSA</span></div>
+                                        <div class="achievement-item">
+                                            <span class="achievement-icon">🌐</span>
+                                            <a href="https://mostaql.com/u/Ahmed_Yasser_1/reviews/4507416" 
+                                               style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                                Explore the project review 🔗
+                                            </a>
+                                        </div>
+                                    </div>
+                                <div class="project-tags" style="margin-bottom: 10px">
+                                    <span class="tag">Excel</span>
+                                    <span class="tag">Power BI</span>
+                                    <span class="tag">DAX</span>
+                                    <span class="tag">Data Cleaning</span>
+                                    <span class="tag">Data Analysis</span>
+                                    <span class="tag">Data Transformation</span>
+                                    <span class="tag">Data Visualization</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                <div class="project-card">
+                        <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                            <!-- Thumbnail Image -->
+                            <img 
+                                src="C:\Users\Ahmed Yasser\Downloads\images\dashboard6.png" 
+                                alt="OPPO Dashboard Preview" 
+                                style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                            <!-- Dark Overlay with Text -->
+                            <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                                <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                            </div>
+        
+                            <!-- Power BI Dashboard -->
+                            <iframe 
+                                title="Restaurant Sales Performance Dashboard" 
+                                width="100%" 
+                                height="100%" 
+                                src="https://app.powerbi.com/view?r=eyJrIjoiODI4MTM5ZjQtZjg4MC00ZDRkLWE5MTUtNzAxMmNkMzIwZGM1IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+                                frameborder="0" 
+                                allowFullScreen="true"
+                                style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                            </iframe>
+                        </div>
+                            <div class="project-content">
+                                <h3 style="color:#64ffda">Restaurant Sales Performance Dashboard</h3>
+                                <p>A performance dashboard that delivers a view of the Frizzl and Hail branches, tracking net sales, profit margins, average order value, and product performance to optimize menu offerings & drive profitability.</p>
+                                <div class="timeline-achievements">
+                                        <div class="achievement-item"><span class="achievement-icon">📅</span><span>2023</span></div>
+                                        <div class="achievement-item"><span class="achievement-icon">🏢</span><span>Restaurant - KSA</span></div>
+                                        <div class="achievement-item">
+                                            <span class="achievement-icon">🌐</span>
+                                            <a href="https://app.powerbi.com/view?r=eyJrIjoiZDQ3M2MwYWQtNTI3YS00YWYwLWJiZTUtNTk1MWNkNWUwMWE2IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9" 
+                                                style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                                Interact with the Dashboard 🔗
+                                            </a>
+                                        </div>
+                                    </div>
+                                <div class="project-tags" style="margin-bottom: 10px">
+                                    <span class="tag">Excel</span>
+                                    <span class="tag">Power BI</span>
+                                    <span class="tag">DAX</span>
+                                    <span class="tag">Data Analysis</span>
+                                    <span class="tag">Data Transformation</span>
+                                    <span class="tag">Data Visualization</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                <div class="project-card slider-card">
+                <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                    <!-- Image Slider Container -->
+                    <div class="slider-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+                        <!-- Slides -->
+                        <div class="slider-slides" style="display: flex; height: 100%; transition: transform 0.5s ease; position: absolute; top: 0; left: 0; width: 200%; ">
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot1.png" 
+                                        alt="STC Dashboard - Slide 1" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot2.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot3.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot4.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot5.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot6.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot7.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot8.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot9.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                            <div style="width: 50%; height: 100%; flex-shrink: 0; position: relative; transform: scale(1.05);">
+                                <img src="C:\Users\Ahmed Yasser\Downloads\images\army\snapshot10.png" 
+                                        alt="STC Dashboard - Slide 2" 
+                                        class="slider-image"
+                                        style="width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; box-sizing: border-box;">
+                            </div>
+                        </div>
+
+                        <!-- Navigation Arrows -->
+                        <button class="slider-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.6); color: white; border: none; padding: 15px 12px; cursor: pointer; font-size: 20px; border-radius: 4px; z-index: 10; transition: background 0.3s ease;">
+                            ❮
+                        </button>
+                        <button class="slider-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.6); color: white; border: none; padding: 15px 12px; cursor: pointer; font-size: 20px; border-radius: 4px; z-index: 10; transition: background 0.3s ease;">
+                            ❯
+                        </button>
+
+                        <!-- Dots Indicator -->
+                        <div class="slider-dots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;">
+                            <span class="dot active" data-slide="0" style="width: 10px; height: 10px; border-radius: 50%; background: #64ffda; cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="2" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="3" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="4" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="5" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="6" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="7" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="8" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                            <span class="dot" data-slide="9" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s ease;"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 style="color:#64ffda">Brigade 22 New Internal System</h3>
+                    <p>Engineered a desktop-based internal system for <strong>military unit</strong> operations using C# and MySQL relational database, deployed across a secure local area network infrastructure.</p>
+                    <div class="timeline-achievements">
+                        <div class="achievement-item"><span class="achievement-icon">📅</span><span>2023</span></div>
+                        <div class="achievement-item"><span class="achievement-icon">🏢</span><span>Egyptian Military Service</span></div>
+                        <div class="achievement-item">
+                            <span class="achievement-icon">⚠️</span>
+                                For confidentiality & sensitivity, some information was blurred.
+                        </div>
+                    </div>
+                    <div class="project-tags" style="margin-bottom: 10px">
+                        <span class="tag">C#</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">ERD</span>
+                        <span class="tag">Relational Database</span>
+                        <span class="tag">Database Design</span>
+                        <span class="tag">Desktop App Development</span>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+
+            /* Override any existing hover effects on this specific slider */
+            .slider-card .slider-container img {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+                transform: none !important;
+            }
+
+            .slider-card .slider-container:hover img {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .slider-card .project-image:hover img {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .slider-card:hover .slider-container img {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            </style>
+
+            <script>
+            // Slider functionality for STC project card
+            (function() {
+                const sliderContainer = document.querySelector('.project-card .slider-container');
+                const slides = sliderContainer.querySelector('.slider-slides');
+                const prevBtn = sliderContainer.querySelector('.slider-prev');
+                const nextBtn = sliderContainer.querySelector('.slider-next');
+                const dots = sliderContainer.querySelectorAll('.dot');
+    
+                let currentSlide = 0;
+                const totalSlides = 10;
+    
+                function updateSlider() {
+                    // Move by 50% each time (since each slide is 50% of the 200% width container)
+                    slides.style.transform = `translateX(-${currentSlide * 50}%)`;
+        
+                    // Update dots
+                    dots.forEach((dot, index) => {
+                        if (index === currentSlide) {
+                            dot.style.background = '#64ffda';
+                            dot.style.width = '12px';
+                            dot.style.height = '12px';
+                        } else {
+                            dot.style.background = 'rgba(255, 255, 255, 0.5)';
+                            dot.style.width = '10px';
+                            dot.style.height = '10px';
+                        }
+                    });
+                }
+    
+                prevBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                });
+    
+                nextBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlider();
+                });
+    
+                // Dot navigation
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        currentSlide = index;
+                        updateSlider();
+                    });
+                });
+    
+                // Hover effects for buttons
+                [prevBtn, nextBtn].forEach(btn => {
+                    btn.addEventListener('mouseenter', () => {
+                        btn.style.background = 'rgba(100, 255, 218, 0.3)';
+                    });
+                    btn.addEventListener('mouseleave', () => {
+                        btn.style.background = 'rgba(0, 0, 0, 0.6)';
+                    });
+                });
+            })();
+            </script>
+
+
+            <div class="project-card">
+                    <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                        <!-- Thumbnail Image -->
+                        <img 
+                            src="C:\Users\Ahmed Yasser\Downloads\images\dashboard3.png" 
+                            alt="OPPO Dashboard Preview" 
+                            style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                        <!-- Dark Overlay with Text -->
+                        <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                            <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                        </div>
+        
+                        <!-- Power BI Dashboard -->
+                        <iframe 
+                            title="OPPO ALL IN ONE Dashboard" 
+                            width="100%" 
+                            height="100%" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiNGJhOTc3NjItOWQ2Yi00YzA3LTg1MzItOTA0Zjc3YmI2OGViIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+                            frameborder="0" 
+                            allowFullScreen="true"
+                            style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                        </iframe>
+                    </div>
+                    <div class="project-content">
+                        <h3 style="color:#64ffda">OPPO ALL-IN-ONE Dashboard</h3>
+                        <p>By weaving together every strand of operational data, the All-in-One <strong>OPPO </strong>dashboard provides a holistic view of the customer ecosystem, revealing powerful opportunities to elevate experience and efficiency.</p>
+                        <div class="timeline-achievements">
+                                <div class="achievement-item"><span class="achievement-icon">📅</span><span>2024</span></div>
+                                <div class="achievement-item"><span class="achievement-icon">🏢</span><span>OPPO</span></div>
+                                <div class="achievement-item">
+                                    <span class="achievement-icon">🌐</span>
+                                    <a href="https://app.powerbi.com/view?r=eyJrIjoiNGJhOTc3NjItOWQ2Yi00YzA3LTg1MzItOTA0Zjc3YmI2OGViIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9" 
+                                       style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                        Interact with the Dashboard 🔗
+                                    </a>
+                                </div>
+                            </div>
+                        <div class="project-tags" style="margin-bottom: 10px">
+                            <span class="tag">Excel</span>
+                            <span class="tag">Power BI</span>
+                            <span class="tag">DAX</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">Business Intelligence</span>
+                            <span class="tag">Data Transformation</span>
+                            <span class="tag">Data Visualization</span>
+                            <span class="tag">Customer Service</span>
+                        </div>
+                    </div>
+                </div>
+                
+            <div class="project-card">
+                    <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                        <!-- Thumbnail Image -->
+                        <img 
+                            src="C:\Users\Ahmed Yasser\Downloads\images\dashboard7.png" 
+                            alt="OPPO Dashboard Preview" 
+                            style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                        <!-- Dark Overlay with Text -->
+                        <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                            <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                        </div>
+        
+                        <!-- Power BI Dashboard -->
+                        <iframe 
+                            title="Billings Tracking Dashboard" 
+                            width="100%" 
+                            height="100%" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiOWFhYjRlYjItMmFjMy00M2FjLThiZWItYjRiNDQ2ZTU2MzhhIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+                            frameborder="0" 
+                            allowFullScreen="true"
+                            style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                        </iframe>
+                    </div>
+                    <div class="project-content">
+                        <h3 style="color:#64ffda">Billings Tracking Dashboard</h3>
+                        <p>A dashboard that delivers a real-time financial pulse for the <strong>Saudi Ports Authority</strong>, monitoring revenue variance, collection efficiency, and outstanding bills per port.</p>
+                        <div class="timeline-achievements">
+                                <div class="achievement-item"><span class="achievement-icon">📅</span><span>2024</span></div>
+                                <div class="achievement-item"><span class="achievement-icon">🏢</span><span>Saudi Ports Authority</span></div>
+                                <div class="achievement-item">
+                                    <span class="achievement-icon">🌐</span>
+                                    <a href="https://mostaql.com/u/Ahmed_Yasser_1/reviews/8237163" 
+                                       style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                        Explore the project review 🔗
+                                    </a>
+                                </div>
+                            </div>
+                        <div class="project-tags" style="margin-bottom: 10px">
+                            <span class="tag">Excel</span>
+                            <span class="tag">Power BI</span>
+                            <span class="tag">DAX</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">Business Intelligence</span>
+                            <span class="tag">Data Transformation</span>
+                            <span class="tag">Data Visualization</span>
+                            <span class="tag">Customer Service</span>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="project-card">
+                        <div class="project-image" style="height: 250px; padding: 0; position: relative; overflow: hidden;">
+                            <!-- Thumbnail Image -->
+                            <img 
+                                src="C:\Users\Ahmed Yasser\Downloads\images\dashboard4.png" 
+                                alt="OPPO Dashboard Preview" 
+                                style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: transform 0.5s ease; z-index: 2;">
+        
+                            <!-- Dark Overlay with Text -->
+                            <div class="hover-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.5s ease; pointer-events: none;">
+                                <span style="color: var(--slate-lightest); font-size: 26px; font-weight: bold; letter-spacing: 1px;">Hover to Explore</span>
+                            </div>
+        
+                            <!-- Power BI Dashboard -->
+                            <iframe 
+                                title="Airport Operational Dashboard" 
+                                width="100%" 
+                                height="100%" 
+                                src="https://app.powerbi.com/view?r=eyJrIjoiZTVlNGQ1OTMtMjAzMS00YmFkLWFkYTctMTY3Y2FjNDM5YjhjIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
+                                frameborder="0" 
+                                allowFullScreen="true"
+                                style="border: none; display: block; position: absolute; top: 0; left: 0; transform: scale(1); object-position: center;">
+                            </iframe>
+                        </div>
+                        <div class="project-content">
+                            <h3 style="color:#64ffda">Airport Operational Dashboard</h3>
+                            <p>This centralized operational dashboard tracks flight and passenger movement at <strong>Prince Mohammed Bin Abdulaziz International Airport</strong>, enabling immediate identification of bottlenecks in boarding processes and delays to ensure on-time performance.</p>
+                            <div class="timeline-achievements">
+                                    <div class="achievement-item"><span class="achievement-icon">📅</span><span>2025</span></div>
+                                    <div class="achievement-item"><span class="achievement-icon">🏢</span><span>Prince Mohammed Bin Abdulaziz International Airport</span></div>
+                                    <div class="achievement-item">
+                                        <span class="achievement-icon">🌐</span>
+                                        <a href="https://mostaql.com/u/Ahmed_Yasser_1/reviews/8130310" 
+                                           style="color: var(--slate-light); text-decoration: none; font-weight: bold;" target="_blank">
+                                            Explore the project review 🔗
+                                        </a>
+                                    </div>
+                                </div>
+                            <div class="project-tags" style="margin-bottom: 10px">
+                                <span class="tag">Excel</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">DAX</span>
+                                <span class="tag">Data Analysis</span>
+                                <span class="tag">Data Transformation</span>
+                                <span class="tag">Data Visualization</span>
+                            </div>
+                        </div>
+                 </div>
+                    
+            </div>
+        </section>
+        
+
+        <section id="internships">
+            <div class="container">
+                <h2 class="section-title">Internships</h2>
+                <div class="projects-grid">
+                    
+                    <div class="project-card">
+                        <div class="project-image" style="overflow: hidden;">
+                             <img src="https://aikdesigns.co.uk/wp-content/uploads/2025/08/SHOEBUYA-3.png" alt="Predictive Analytics" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transform-origin: 35% 40%;">
+                        </div>
+                        <div class="project-content">
+                            <h4 style="color:var(--accent-cyan)">Nov 2022 - Dec 2022</h4>
+                            <h3>Data Analysis Internship</h3>
+                            <p style="margin-bottom: 50px">Participated in an online internship for a month to leverage my analytical skills across various tools and technologies.</p>
+                            <div class="project-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                                <a href="https://www.linkedin.com/posts/ahmed-ay-yasser_psyliq-hr-data-analysis-task-activity-7139218267797176320-0epn/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Project 1</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.linkedin.com/posts/ahmed-ay-yasser_diabetes-predictions-data-analysis-task-activity-7142526910223364096-iHiV/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Project 2</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.linkedin.com/feed/update/urn:li:activity:7145078244776615936/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Project 3</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="project-card">
+                        <div class="project-image" style="overflow: hidden;">
+                             <img src="https://www.dailynewsegypt.com/app/uploads/2013/02/NBE.jpg" alt="Predictive Analytics" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transform-origin: 75% 40%;">
+                        </div>
+                        <div class="project-content">
+                        <h4 style="color:var(--accent-cyan)">Jun 2021 - Aug 2021</h4>
+                            <h3>Summer Internship</h3>
+                            <p style="margin-bottom: 50px">Supported daily branch operations by assisting with client inquiries and resolving service issues efficiently.</p>
+                            <div class="project-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                                <a href="https://www.linkedin.com/posts/ahmed-ay-yasser_nbe-internship-certificate-2021-activity-6833872293417115648-oi-4/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Internship Overview</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="project-card">
+                        <div class="project-image" style="overflow: hidden;">
+                             <img src="https://media.licdn.com/dms/image/v2/C561BAQHxYasGZi66GQ/company-background_1536_768/company-background_1536_768/0/1584347164661?e=2147483647&v=beta&t=rAi2abCsVKR1g6rJSWKDyY1WixJu02-VV_nV-Ye4LWI" alt="Predictive Analytics" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1); transform-origin: 35% 40%;">
+                        </div>
+                        <div class="project-content">
+                        <h4 style="color:var(--accent-cyan)">Jan 2021 - Apr 2021</h4>
+                            <h3>Data Science & Business Analytics Internship</h3>
+                            <p>Performed exploratory and analytical projects uncover trends and visualize insights from business and global terrorism datasets. </p>
+                            <div class="project-tags" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; flex-grow: 1; align-items: flex-start;">
+                                <a href="https://www.linkedin.com/posts/ahmed-ay-yasser_gripfeb22-internship-task1-activity-6896570287379374080-xBIs/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Project 1</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.linkedin.com/posts/ahmed-ay-yasser_gripfeb22-internship-task2-activity-6901237603769688064-Z-bl/" target="_blank" rel="noopener noreferrer" class="tag" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                                    <span>Project 2</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </section>
+
+
+        <section id="certifications" class="section-dark">
+            <div class="container">
+                <h2 class="section-title">Certifications</h2>
+                <div class="certificates-grid">
+                    
+                    <div class="certificate-card">
+                        <div class="cert-image">
+                             <img src="https://images.wuzzuf-data.net/files/company_logo/Udacity-Egypt-38623-1545308235-og.png" alt="udacity" style="object-fit:contain; display: block; transform: scale(1.5);">
+                        </div>
+                        <div class="certificate-content">
+                            <h3>Udacity</h3>
+                            <div class="project-tags">
+                                <a href="https://www.credential.net/5439053e-4e77-412b-9425-73860ff30291#acc.FzkRm3XM" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analyst Nano-Degree</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.udacity.com/certificate/e/6ee351fa-6573-11eb-abc6-834bd9e44079" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analysis Professional</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://s3-us-west-2.amazonaws.com/udacity-printer/production/certificates/4614e363-3a2e-4925-ba9b-12c2085629c0.pdf" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analysis Challenger</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="certificate-card">
+                        <div class="cert-image">
+                             <img src="https://www.nuwireinvestor.com/wp-content/uploads/2023/02/CFI-480x320-Template@1.5x.jpg" alt="cfi" style="object-fit:contain; display: block; transform: scale(1.1);">
+                        </div>
+                        <div class="certificate-content">
+                            <h3>CFI</h3>
+                            <div class="project-tags">
+                                <a href="https://www.credential.net/5439053e-4e77-412b-9425-73860ff30291#acc.FzkRm3XM" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Business Intelligence & Data Analyst (BIDA)®</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.credential.net/9aabd9c6-e044-4e46-a598-dfa47b71b7c1#acc.cdiBTQAE" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Financial Modeling & Valuation Analyst (FMVA)®</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="certificate-card">
+                        <div class="cert-image">
+                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9IO3v07Xjvqrr9tB3KBZ0D1yD-aUbXDAEaA&s" alt="datacamp" style="object-fit:contain; display: block; transform: scale(1.25);">
+                        </div>
+                        <div class="certificate-content">
+                            <h3>DataCamp</h3>
+                            <div class="project-tags">
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/a0cb56764e3cdc231718f6257c168768d490104c" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Google Sheets Fundamentals Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/f1d88acfa07d8bba36b604a6b53f4d49655dbb0a" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Tableau Fundamentals Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/bf7db19e9a8dea30e874f5c2244800d5e198f58a" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Python Fundamentals Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/ba566c2cebaed51a2b4c0c35b256c32c315cb0ff" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Intermediate Google Sheets Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/e74601e103a4edb09ff5ce124369e268c8fe57f1" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>SQL Fundamentals Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/statement-of-accomplishment/track/ba68e888021ba56dbea2d7ecd105eafa76006eb0?raw=1" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analyst with SQL Server Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/fbda3db021e0757e40e2829004faeb6f84d77089" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>SQL for Business Analysts Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/a40a06d748ea225d5ca6e9a0245bf832a1179157" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analyst with R Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/3af8c06d2e84524f221754fd556c8c031f6f9ede" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Analyst with Python Track</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                                <a href="https://www.datacamp.com/statement-of-accomplishment/course/3e73111edc95da33bd37ee4babdc56cbcb7d05a6?raw=1" target="_blank" rel="noopener noreferrer" class="tag">
+                                    <span>Data Warehouse Concepts</span>
+                                    <span style="font-size: 14px;">🔗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id ="trust" class="clients-section" style="padding: 100px 20px; background: var(--navy-dark, #0a192f);">
+            <div class="container" style="max-width: 1200px; margin: 0 auto;">
+                <!-- Section Header -->
+                <div class="section-title" style="text-align: center; margin-bottom: 50px;">
+                    <h2 style="color: var(--slate-lightest, #ccd6f6); font-size: 36px; margin-bottom: 10px;">Trusted By</h2>
+                    <p style="color: var(--slate, #8892b0); font-size: 18px;">Companies & Organizations I've Worked With</p>
+                </div>
+
+                <!-- Clients Carousel -->
+                <div class="clients-carousel-wrapper" style="position: relative; overflow: hidden; padding: 0 60px;">
+                    <!-- Carousel Track -->
+                    <div class="clients-track" style="overflow: hidden;">
+                        <div class="clients-carousel" style="display: flex; transition: transform 0.5s ease; gap: 21px;">
+                            <!-- Client 1 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\civilaffairs.jpg" alt="Client 1" style="max-width: 100%; max-height: 100%; object-fit: contain;  transform: scale(1.5)">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 2 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\vaneersa.webp" alt="Client 2" style="max-width: 100%; max-height: 100%; object-fit: contain;  transform: scale(1.5)">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 3 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\mawani.png" alt="Client 3" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1.7)">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 4 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\stc.png" alt="Client 4" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 5 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\tbc.png" alt="Client 5" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1.3)">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 6 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\tybh.png" alt="Client 6" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1.7)">
+                                </div>
+                            </div>
+                    
+                            <!-- Client 7 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\hail.png" alt="Client 7" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1.5)">
+                                </div>
+                            </div>
+
+                            <!-- Client 8 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\oppo.png" alt="Client 8" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1)">
+                                </div>
+                            </div>
+
+                            <!-- Client 9 -->
+                            <div class="client-item" style="flex: 0 0 calc(33.333% - 20px); min-width: calc(33.333% - 20px);">
+                                <div style="background: white; border-radius: 12px; padding: 30px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                                    <img src="C:\Users\Ahmed Yasser\Downloads\clients\giza.png" alt="Client 9" style="max-width: 100%; max-height: 100%; object-fit: contain; transform: scale(1)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <button class="clients-prev" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: rgba(100, 255, 218, 0.1); color: #64ffda; border: 2px solid #64ffda; padding: 12px 16px; cursor: pointer; font-size: 20px; border-radius: 4px; z-index: 10; transition: all 0.3s ease;">
+                        ❮
+                    </button>
+                    <button class="clients-next" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: rgba(100, 255, 218, 0.1); color: #64ffda; border: 2px solid #64ffda; padding: 12px 16px; cursor: pointer; font-size: 20px; border-radius: 4px; z-index: 10; transition: all 0.3s ease;">
+                        ❯
+                    </button>
+                </div>
+
+                <!-- Dots Indicator -->
+                <div class="clients-dots" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
+                    <span class="client-dot active" data-slide="0" style="width: 12px; height: 12px; border-radius: 50%; background: #64ffda; cursor: pointer; transition: all 0.3s ease;"></span>
+                    <span class="client-dot" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: all 0.3s ease;"></span>
+                    <span class="client-dot" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: all 0.3s ease;"></span>
+                </div>
+            </div>
+        </section>
+
+        <style>
+        /* Hover effects for client cards */
+        .client-item > div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2) !important;
+        }
+
+        /* Button hover effects */
+        .clients-prev:hover,
+        .clients-next:hover {
+            background: rgba(100, 255, 218, 0.2) !important;
+            transform: translateY(-50%) scale(1.1) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .client-item {
+                flex: 0 0 calc(50% - 15px) !important;
+                min-width: calc(50% - 15px) !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .client-item {
+                flex: 0 0 100% !important;
+                min-width: 100% !important;
+            }
+    
+            .clients-carousel-wrapper {
+                padding: 0 50px !important;
+            }
+        }
+        </style>
+
+        <script>
+        // Clients Carousel functionality
+        (function() {
+            const carousel = document.querySelector('.clients-carousel');
+            const prevBtn = document.querySelector('.clients-prev');
+            const nextBtn = document.querySelector('.clients-next');
+            const dots = document.querySelectorAll('.client-dot');
+            const items = document.querySelectorAll('.client-item');
+    
+            let currentSlide = 0;
+            const itemsPerView = 3; // Show 3 clients at a time
+            const totalItems = items.length;
+            const totalSlides = Math.ceil(totalItems / itemsPerView);
+    
+            function updateCarousel() {
+                // Calculate the percentage to move
+                const movePercentage = currentSlide * 100;
+                carousel.style.transform = `translateX(-${movePercentage}%)`;
         
-        <section id="contact">
+                // Update dots
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.style.background = '#64ffda';
+                        dot.style.width = '12px';
+                        dot.style.height = '12px';
+                    } else {
+                        dot.style.background = 'rgba(255, 255, 255, 0.3)';
+                        dot.style.width = '10px';
+                        dot.style.height = '10px';
+                    }
+                });
+        
+                // Disable/enable buttons at boundaries
+                if (currentSlide === 0) {
+                    prevBtn.style.opacity = '0.5';
+                    prevBtn.style.cursor = 'not-allowed';
+                } else {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.style.cursor = 'pointer';
+                }
+        
+                if (currentSlide === totalSlides - 1) {
+                    nextBtn.style.opacity = '0.5';
+                    nextBtn.style.cursor = 'not-allowed';
+                } else {
+                    nextBtn.style.opacity = '1';
+                    nextBtn.style.cursor = 'pointer';
+                }
+            }
+    
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateCarousel();
+                }
+            });
+    
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateCarousel();
+                }
+            });
+    
+            // Dot navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateCarousel();
+                });
+            });
+    
+            // Initialize
+            updateCarousel();
+    
+            // Optional: Auto-play (uncomment if needed)
+
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }, 5000);
+
+        })();
+        </script>
+
+
+        <section id="contact" class="section-dark">
             <div class="container">
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-form">
@@ -942,49 +2541,6 @@
             </div>
          </section>
 
-            <script>
-            document.getElementById('contact-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const form = this;
-                const submitBtn = form.querySelector('.submit-btn');
-                const originalText = submitBtn.textContent;
-    
-                // Show loading state
-                submitBtn.textContent = 'Sending...';
-                submitBtn.disabled = true;
-    
-                // Submit form data
-                fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        // Show success message
-                        form.style.display = 'none';
-                        document.getElementById('thank-you-message').style.display = 'block';
-                    } else {
-                        alert('There was an error sending your message. Please try again.');
-                    }
-                }).catch(error => {
-                    alert('There was an error sending your message. Please try again.');
-                }).finally(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                });
-            });
-
-            function resetForm() {
-                // Reset form and show it again
-                document.getElementById('contact-form').reset();
-                document.getElementById('contact-form').style.display = 'block';
-                document.getElementById('thank-you-message').style.display = 'none';
-            }
-            </script>
-
-
     </main>
 
     <footer>
@@ -996,6 +2552,67 @@
     </footer>
 
     <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        
+        function toggleMobileMenu() {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', toggleMobileMenu);
+        
+        // Close mobile menu when clicking on a link
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', toggleMobileMenu);
+        });
+        
+        // Form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+    
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+    
+            // Submit form data
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Show success message
+                    form.style.display = 'none';
+                    document.getElementById('thank-you-message').style.display = 'block';
+                } else {
+                    alert('There was an error sending your message. Please try again.');
+                }
+            }).catch(error => {
+                alert('There was an error sending your message. Please try again.');
+            }).finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        function resetForm() {
+            // Reset form and show it again
+            document.getElementById('contact-form').reset();
+            document.getElementById('contact-form').style.display = 'block';
+            document.getElementById('thank-you-message').style.display = 'none';
+        }
+        
         // Intersection Observer for animations on timeline
         const timelineItems = document.querySelectorAll('.timeline-item');
         const observer = new IntersectionObserver(entries => {
@@ -1015,4 +2632,3 @@
     </script>
 </body>
 </html>
-

@@ -22,7 +22,8 @@
         }
 
         html {
-            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         body {
@@ -31,6 +32,8 @@
             color: var(--slate-dark);
             line-height: 1.6;
             overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
 
         .container {
@@ -47,6 +50,7 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            width: 100%;
         }
 
         nav {
@@ -974,7 +978,7 @@
             }
             
             .skills-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             
             .contact-form {
@@ -2407,13 +2411,28 @@
         }
 
         @media (max-width: 576px) {
+            .clients-carousel {
+                gap: 15px !important;
+            }
+            
             .client-item {
                 flex: 0 0 100% !important;
                 min-width: 100% !important;
             }
-    
+            
             .clients-carousel-wrapper {
                 padding: 0 50px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .clients-carousel {
+                gap: 15px !important;
+            }
+            
+            .client-item {
+                flex: 0 0 100% !important;
+                min-width: 100% !important;
             }
         }
         </style>
@@ -2426,17 +2445,31 @@
             const nextBtn = document.querySelector('.clients-next');
             const dots = document.querySelectorAll('.client-dot');
             const items = document.querySelectorAll('.client-item');
-    
+            
             let currentSlide = 0;
-            const itemsPerView = 3; // Show 3 clients at a time
+            
+            // Function to get items per view based on screen size
+            function getItemsPerView() {
+                if (window.innerWidth <= 768) {
+                    return 1; // Show 1 client on mobile
+                } else if (window.innerWidth <= 992) {
+                    return 2; // Show 2 clients on tablet
+                }
+                return 3; // Show 3 clients on desktop
+            }
+            
+            let itemsPerView = getItemsPerView();
             const totalItems = items.length;
-            const totalSlides = Math.ceil(totalItems / itemsPerView);
-    
+            let totalSlides = Math.ceil(totalItems / itemsPerView);
+            
             function updateCarousel() {
+                itemsPerView = getItemsPerView();
+                totalSlides = Math.ceil(totalItems / itemsPerView);
+                
                 // Calculate the percentage to move
                 const movePercentage = currentSlide * 100;
                 carousel.style.transform = `translateX(-${movePercentage}%)`;
-        
+                
                 // Update dots
                 dots.forEach((dot, index) => {
                     if (index === currentSlide) {
@@ -2449,7 +2482,7 @@
                         dot.style.height = '10px';
                     }
                 });
-        
+                
                 // Disable/enable buttons at boundaries
                 if (currentSlide === 0) {
                     prevBtn.style.opacity = '0.5';
@@ -2458,8 +2491,8 @@
                     prevBtn.style.opacity = '1';
                     prevBtn.style.cursor = 'pointer';
                 }
-        
-                if (currentSlide === totalSlides - 1) {
+                
+                if (currentSlide >= totalSlides - 1) {
                     nextBtn.style.opacity = '0.5';
                     nextBtn.style.cursor = 'not-allowed';
                 } else {
@@ -2467,39 +2500,53 @@
                     nextBtn.style.cursor = 'pointer';
                 }
             }
-    
+            
             prevBtn.addEventListener('click', () => {
                 if (currentSlide > 0) {
                     currentSlide--;
                     updateCarousel();
                 }
             });
-    
+            
             nextBtn.addEventListener('click', () => {
                 if (currentSlide < totalSlides - 1) {
                     currentSlide++;
                     updateCarousel();
                 }
             });
-    
+            
             // Dot navigation
             dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
-                    currentSlide = index;
-                    updateCarousel();
+                    if (index < totalSlides) {
+                        currentSlide = index;
+                        updateCarousel();
+                    }
                 });
             });
-    
+            
+            // Update on window resize
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    currentSlide = 0; // Reset to first slide on resize
+                    updateCarousel();
+                }, 250);
+            });
+            
             // Initialize
             updateCarousel();
-    
-            // Optional: Auto-play (uncomment if needed)
-
+            
+            // Auto-play
             setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
+                if (currentSlide >= totalSlides - 1) {
+                    currentSlide = 0;
+                } else {
+                    currentSlide++;
+                }
                 updateCarousel();
             }, 5000);
-
         })();
         </script>
 
@@ -2632,6 +2679,7 @@
     </script>
 </body>
 </html>
+
 
 
 

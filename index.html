@@ -1173,6 +1173,44 @@
                 font-size: 14px;
             }
         }
+
+        @media (max-width: 768px) {
+        /* OPPO Image */
+        .timeline-image img[src*="behance.net"] {
+            transform: scale(0.6) !important;
+            object-position: 50% 50% !important;
+        }
+        
+        /* Giza Systems Image */
+        .timeline-image img[src*="waya.media"] {
+            transform: scale(0.3) !important;
+            object-position: center !important;
+        }
+        
+        /* Military Image */
+        .timeline-image img[src*="africa.cgtn.com"] {
+            transform: scale(0.8) !important;
+            object-position: 50% 50% !important;
+        }
+        
+        /* University Image */
+        .timeline-image img[src*="tanta.edu.eg"] {
+            transform: scale(0.8) !important;
+        }
+        
+        /* Freelance Image */
+        .timeline-image img[src*="verpex.com"] {
+            transform: scale(0.25) !important;
+            object-position: 50% 80% !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        /* Adjust even more for very small screens */
+        .timeline-image img[src*="waya.media"] {
+            transform: scale(0.35) !important;
+        }
+    }
     </style>
 </head>
 <body>
@@ -2676,6 +2714,7 @@
     </script>
 </body>
 </html>
+
 
 
 

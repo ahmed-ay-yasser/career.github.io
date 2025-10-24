@@ -107,21 +107,22 @@
         }
 
         .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 300px;
-            height: 100vh;
-            background: var(--navy-light);
-            padding: 80px 30px 30px;
-            transition: right 0.3s ease;
-            z-index: 99;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+           position: fixed;
+          top: 0;
+          right: 0;
+          width: 80%;
+          max-width: 300px;
+          height: 100vh;
+          background: var(--navy-light);
+          padding: 80px 30px 30px;
+          transition: transform 0.3s ease;
+          z-index: 99;
+          box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+          transform: translateX(100%);
         }
 
         .mobile-nav.active {
-            right: 0;
+            transform: translateX(0);
         }
 
         .mobile-nav-links {
@@ -2681,6 +2682,7 @@
     </script>
 </body>
 </html>
+
 
 
 

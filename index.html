@@ -33,6 +33,10 @@
             overflow-x: hidden;
         }
 
+        html, body {
+            width: 100%;
+            overflow-x: hidden !important;
+        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -107,7 +111,7 @@
         }
 
         .mobile-nav {
-           position: fixed;
+          position: fixed;
           top: 0;
           right: 0;
           width: 80%;
@@ -115,18 +119,18 @@
           height: 100vh;
           background: var(--navy-light);
           padding: 80px 30px 30px;
+          box-shadow: -5px 0 15px rgba(0,0,0,0.2);
           transition: transform 0.3s ease;
           z-index: 99;
-          box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-          transform: translateX(100%);
-            visibility: hidden;
-          pointer-events: none; 
+            transform: translateX(100%);
+          visibility: hidden;
+          pointer-events: none;
         }
 
         .mobile-nav.active {
-            transform: translateX(0);
-            visibility: visible;
-            pointer-events: auto;
+          transform: translateX(0);
+          visibility: visible;
+          pointer-events: auto;
         }
 
         .mobile-nav-links {
@@ -2706,6 +2710,7 @@
     
 </body>
 </html>
+
 
 
 

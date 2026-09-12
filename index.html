@@ -599,7 +599,8 @@
         /* Timeline Styles */
         .timeline {
             position: relative;
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px;
             margin: 60px auto;
             padding: 40px 0;
         }
@@ -607,8 +608,7 @@
         .timeline::before {
             content: '';
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 20px;
             width: 2px;
             height: 100%;
             background: #233554;
@@ -622,12 +622,12 @@
             justify-content: flex-end;
         }
 
-        .timeline-item:nth-child(even) {
-            justify-content: flex-start;
-        }
-
         .timeline-content {
-            width: 45%;
+            width: calc(100% - 50px);
+            display: grid;
+            grid-template-columns: 270px minmax(0, 1fr);
+            grid-template-rows: minmax(360px, auto);
+            align-items: stretch;
             background: var(--navy-light);
             padding: 0;
             border-radius: 20px;
@@ -652,17 +652,27 @@
         .timeline-image {
             position: relative;
             width: 100%;
-            height: 250px;
+            height: 100%;
+            min-height: 360px;
             overflow: hidden;
         }
 
         .image-placeholder {
             width: 100%;
             height: 100%;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.5s ease;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain !important;
+            object-position: center;
+            transform: none !important;
         }
 
         .timeline-content:hover .image-placeholder {
@@ -685,36 +695,75 @@
         }
 
         .timeline-details {
+            display: grid;
+            grid-template-columns: minmax(190px, 0.9fr) minmax(190px, 0.9fr) minmax(300px, 1.35fr);
+            grid-template-rows: auto auto 1fr;
+            min-width: 0;
+            min-height: 0;
+            column-gap: 24px;
+            align-items: start;
             padding: 30px;
         }
 
+        .timeline-details::before {
+            display: none;
+        }
+
         .timeline-details h3 {
+            grid-column: 1 / 3;
+            grid-row: 1;
+            white-space: nowrap;
             font-size: 26px;
             color: var(--slate-lightest);
             margin-bottom: 12px;
             font-weight: 700;
         }
 
+        .timeline-details h4 {
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+            z-index: 2;
+            margin: 0;
+        }
+
         .timeline-description {
+            grid-column: 1 / 3;
+            grid-row: 2;
             color: var(--slate-dark);
             line-height: 1.7;
             margin-bottom: 20px;
             font-size: 15px;
+            text-align: left;
         }
 
         .timeline-achievements {
-            margin: 20px 0;
+            grid-column: 3;
+            grid-row: 1 / -1;
+            align-self: center;
+            width: 100%;
+            min-height: 220px;
+            margin: 0;
             background: var(--navy-dark);
             padding: 20px;
             border-radius: 12px;
             border-left: 4px solid var(--accent-cyan);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .timeline-details .timeline-tags {
+            grid-column: 1 / 3;
+            grid-row: 3;
+            margin-top: 20px;
         }
 
         .achievement-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 0;
             font-size: 14px;
             color: var(--slate-light);
         }
@@ -751,7 +800,7 @@
 
         .timeline-dot {
             position: absolute;
-            left: 50%;
+            left: 20px;
             top: 20px;
             transform: translateX(-50%);
             width: 20px;
@@ -1002,6 +1051,7 @@
             .timeline-content, .timeline-item:nth-child(even) .timeline-content {
                 width: calc(100% - 40px);
                 text-align: left;
+                display: block;
             }
             
             .timeline-dot {
@@ -1009,7 +1059,26 @@
             }
             
             .timeline-details {
+                display: block;
                 padding: 20px;
+            }
+
+            .timeline-details::before {
+                display: none;
+            }
+
+            .timeline-details h4 {
+                position: static;
+                margin-bottom: 10px;
+            }
+
+            .timeline-achievements {
+                min-height: 0;
+                display: block;
+            }
+
+            .achievement-item {
+                margin-bottom: 12px;
             }
             
             .timeline-details h3 {
@@ -1018,6 +1087,7 @@
             
             .timeline-image {
                 height: 200px;
+                min-height: 200px;
             }
             
             .year-badge {
